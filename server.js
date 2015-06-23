@@ -125,7 +125,8 @@ var insertNote = function (fields, callback) {
 var server = app.listen(4000, function () {
 
     var host = server.address().address;
-    var port = server.address().port;
+    //var port = server.address().port;
+    var port = process.env.PORT || 8080;
 
     console.log('Example app listening at http://%s:%s', host, port);
 });
