@@ -1,0 +1,13 @@
+/node_modules/*
+/.idea
+/src/bower-components
+/dist
+*.mp4
+#/build
+
+# newrelic logs
+/newrelic_agent.log
+/npm-debug.log
+
+#unignore
+#!/node_modules/gulp/

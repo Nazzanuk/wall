@@ -1,0 +1,40 @@
+[data-template="sidebar"] {
+  .sidebar {
+    position: fixed;
+    width: 300px;
+    top: 0;
+    bottom: 0;
+    z-index: 1500;
+    background: $dark-1;
+    display: none;
+    line-height: 40px;
+    color: white;
+
+    .sidebar-close {
+      top: 0;
+      position: absolute;
+      height: 40px;
+      width: 40px;
+      text-align: center;
+      left:0;
+      cursor:pointer;
+      font-size: 18px;
+    }
+
+    .sidebar-title {
+      padding: 0 15px;
+    }
+
+    .sidebar-wall {
+      padding: 0 15px;
+      cursor:pointer;
+      transition:.3s;
+      font-weight: bold;
+
+      &:hover {
+        background:$dark-2;
+      }
+    }
+
+  }
+}

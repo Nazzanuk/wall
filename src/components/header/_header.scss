@@ -1,0 +1,47 @@
+[data-template="header"] {
+
+  .header {
+    position: fixed;
+    top: 0;
+    color: white;
+    padding: 0 30px;
+    height: 40px;
+    line-height: 40px;
+    z-index: 1000;
+    width: 100vw;
+    text-align: center;
+
+    .header-burger {
+      top: 0;
+      position: absolute;
+      height: 40px;
+      width: 40px;
+      text-align: center;
+      color: white;
+      left:0;
+      cursor:pointer;
+      font-size: 18px;
+    }
+
+    .header-name {
+      position: absolute;
+      right: 70px;
+      top: 0;
+      padding: 0 30px;
+    }
+
+    .header-image {
+      background:white;
+      border: 3px solid $dark-1;
+      height: 75px;
+      width: 75px;
+      border-radius: 100px;
+      position: absolute;
+      right: 15px;
+      top: 5px;
+      z-index: 100;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+}

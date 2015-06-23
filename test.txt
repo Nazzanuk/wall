@@ -1,0 +1,55 @@
+searchModel.searchTerm:London Covent Garden
+searchModel.hotel.code:LONSTM
+searchModel.hotel.name:London Covent Garden
+searchModel.location.location.latitude:51.51
+searchModel.location.location.longitude:-0.127
+thisHotel.code:LONSTM
+thisHotel.name:London Covent Garden
+availabilityModel.day:29
+availabilityModel.selectedMonthAndYear:201505
+availabilityModel.nights:1
+availabilityModel.numOfRooms:1
+availabilityModel.maxNumOfRooms:1
+availabilityModel.sessionId:dg6PJgRCIqkpXARy
+availabilityModel.roomRequirementList[0].adults:1
+availabilityModel.roomRequirementList[0].children:0
+availabilityModel.roomRequirementList[0].cot:false
+availabilityModel.roomRequirementList[0].occupancy:DOUBLE
+availabilityModel.bookingReturnUrl:
+searchModel.from:home
+searchModel.offerReference:
+bookingSelection.hotelCode:LONSTM
+bookingSelection.hotelBrand:HUB
+bookingSelection.substitutionWithWarning:true
+bookingSelection.selectedRateClassification:A
+bookingSelection.originalRoomOfferSetsFE[0].rateClassification:A
+bookingSelection.originalRoomOfferSetsFE[0].ratePlanCode:RH002
+bookingSelection.originalRoomOfferSetsFE[0].roomOffers[0].selectedRoom.type:DNS
+
+searchModel.searchTerm:London Covent Garden
+searchModel.hotel.code:LONSTM
+searchModel.hotel.name:London Covent Garden
+searchModel.location.location.latitude:51.51
+searchModel.location.location.longitude:-0.127
+thisHotel.code:LONSTM
+thisHotel.name:London Covent Garden
+availabilityModel.day:29
+availabilityModel.selectedMonthAndYear:201505
+availabilityModel.nights:1
+availabilityModel.numOfRooms:1
+availabilityModel.maxNumOfRooms:1
+availabilityModel.sessionId:dg6PJgRCIqkpXARy
+availabilityModel.roomRequirementList[0].adults:1
+availabilityModel.roomRequirementList[0].children:0
+availabilityModel.roomRequirementList[0].cot:false
+availabilityModel.roomRequirementList[0].occupancy:DOUBLE
+availabilityModel.bookingReturnUrl:
+searchModel.from:home
+searchModel.offerReference:
+bookingSelection.hotelCode:LONSTM
+bookingSelection.hotelBrand:HUB
+bookingSelection.substitutionWithWarning:true
+bookingSelection.selectedRateClassification:A
+bookingSelection.originalRoomOfferSetsFE[0].rateClassification:A
+bookingSelection.originalRoomOfferSetsFE[0].ratePlanCode:RH002
+bookingSelection.originalRoomOfferSetsFE[0].roomOffers[0].selectedRoom.type:DNS

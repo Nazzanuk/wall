@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "Project Wall - Free Online Post-it Wall",
+  "description": "Transcribe your interviews and audio online for free with Project Scribe",
+  "version": "1.0.1",
+  "icons": {
+    "128": "128.png"
+  },
+  "app": {
+    "urls": [
+      "http://wall.storynatives.com/"
+    ],
+    "launch": {
+      "web_url": "http://wall.storynatives.com/"
+    }
+  },
+  "permissions": [
+    "unlimitedStorage",
+    "notifications"
+  ]
+}

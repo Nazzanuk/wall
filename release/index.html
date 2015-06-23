@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<script src="//assets.adobedtm.com/9b346bffe2591722c64f88bf101c0664c8936e16/satelliteLib-93e274c58a6ad1ed12b80e4d8c0a01144cd6e324.js"></script>-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <title>Your Wall</title>
+
+    <meta name="description" content="Your virtual post-it and sticky  wall."/>
+    <meta name="google-site-verification" content="pBKCJt-19i0-qQCVbi5EEKn3bQ_c_i5ofFwMzGs3Q-o" />
+
+    <link rel="stylesheet" href="/public/lib.css"/>
+    <link rel="stylesheet" href="/public/app.css"/>
+    <link rel="stylesheet" href="/public/fontawesome/css/font-awesome.min.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Shadows+Into+Light|Droid+Serif:400,700|Indie+Flower|Covered+By+Your+Grace|Shadows+Into+Light+Two' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,600,700,200italic,300italic,400italic,600italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Architects+Daughter|Kalam:400,700,300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Patrick+Hand|Indie+Flower|Architects+Daughter&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="227613390302-j01otbkldjgj8o5ct51u96vk3pakugdg.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+<body data-ng-app="app" class="<%= content.class %>">
+<script>
+//    chrome.browserAction.onClicked.addListener(function() {
+//        chrome.windows.create({'url': 'scribe.storynatives.com', 'type': 'popup'}, function(window) {
+//        });
+//    });
+</script>
+<div data-template="header" data-ng-controller="HeaderCtrl" ng-show="isSignedIn()">
+    <div class="header">
+        <div class="header-burger"><i class="fa fa-navicon"></i></div>
+        <div class="header-name" ng-show="isSignedIn()">
+            Hi {{getName()}}!
+        </div>
+        <div class="header-image" ng-show="isSignedIn()" style="background-image:url('{{getImageUrl()}}')">
+
+        </div>
+        <!--Infinite WALL-->
+    </div>
+</div>
+
+<div data-template="sidebar" ng-controller="SidebarCtrl">
+    <div class="sidebar">
+        <div class="sidebar-close">
+            <i class="fa fa-times"></i>
+        </div>
+
+        <div>&nbsp;</div>
+        <h1 class="sidebar-title">Walls</h1>
+        <div class="sidebar-wall" ng-repeat="wall in getWallList()" ng-click="setWall(wall.name)">{{wall.name}}</div>
+    </div>
+</div>
+<div data-template="google-auth">
+    <div class="google-auth">
+        <div class="google-title">Sign in with your Google account</div>
+
+        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"  data-width="300" data-height="50" data-longtitle="true"></div>
+    </div>
+</div>
+
+<div data-template="wall" data-ng-controller="WallCtrl">
+    <div class="wall">
+        <div class="wall-ui">
+            <div class="ui-btn" ng-click="addNote()">
+                <i class="fa fa-pencil"></i>
+            </div>
+        </div>
+        <div class="wall-ui alt">
+            <div class="ui-btn" ng-click="changeScale(0.2)">
+                <i class="fa fa-plus"></i>
+            </div>
+            <div class="ui-btn" ng-click="changeScale(-0.2)">
+                <i class="fa fa-minus"></i>
+            </div>
+        </div>
+        <div class="wall-canvas">
+            <div class="canvas-title">{{getWall()}}</div>
+
+            <div class="note colour-{{note.colour}}"
+                 ng-repeat="note in getNotes() track by $index"
+                 ng-click="$event.stopPropagation()"
+                 note-id="{{$index}}" style="top:{{note.top}}px;left:{{note.left}}px;transform: rotate({{note.angle}}deg)"
+                    >
+                <div class="note-slip"></div>
+                <div class="note-theme" ng-click="changeColour($index); $event.stopPropagation()">
+                    <i class="fa fa-circle"></i>
+                </div>
+                <div class="note-theme" ng-click="changeFontSize($index, 2); $event.stopPropagation()">
+                    <i class="fa fa-chevron-up"></i>
+                </div>
+                <div class="note-theme" ng-click="reduceFontSize($index, 2); $event.stopPropagation()">
+                    <i class="fa fa-chevron-down"></i>
+                </div>
+                <div class="note-close" ng-click="removeNote($index); $event.stopPropagation()">
+                    <i class="fa fa-times"></i>
+                </div>
+                <textarea class="note-content" ng-model="note.content" ng-blur="updateNote($index)" style="font-size:{{note.fontSize}}px;"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--footer.ejs-->
+<div data-template="footer">
+    <footer id="footer">
+
+    </footer>
+</div>
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-60482497-3', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+<script src="/public/lib.js"></script>
+<script src="/public/app.js"></script>
+
+<!--<script type="text/javascript">_satellite.pageBottom();</script>-->
+</body>
+</html>

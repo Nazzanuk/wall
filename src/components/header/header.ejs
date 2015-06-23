@@ -1,0 +1,12 @@
+<div data-template="header" data-ng-controller="HeaderCtrl" ng-show="isSignedIn()">
+    <div class="header">
+        <div class="header-burger"><i class="fa fa-navicon"></i></div>
+        <div class="header-name" ng-show="isSignedIn()">
+            Hi {{getName()}}!
+        </div>
+        <div class="header-image" ng-show="isSignedIn()" style="background-image:url('{{getImageUrl()}}')">
+
+        </div>
+        <!--Infinite WALL-->
+    </div>
+</div>

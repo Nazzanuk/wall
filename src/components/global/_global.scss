@@ -1,0 +1,31 @@
+body {
+  overflow-x: hidden;
+  background: $light-1;
+  background: $dark-1;
+//  background: #fff;
+  font-family: 'Droid Serif', serif;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  min-height: 100vh;
+}
+
+.fa {
+  line-height: inherit !important;
+}
+
+[data-template] {
+  display: inline;
+}
+
+[ng-show] {
+  //  visibility: hidden;
+}
+
+input, textarea, * {
+  outline: none;
+}
+
+h1, h2, h3 {
+  font-weight: 100;
+}
