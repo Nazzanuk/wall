@@ -27,7 +27,7 @@
 
         var getName = function () {
             if (!isSignedIn()) return;
-            console.log(profile.getName());
+            //console.log(profile.getName());
             return profile.getName();
         };
 

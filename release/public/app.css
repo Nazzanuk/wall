@@ -91,11 +91,7 @@ h1, h2, h3 {
       color: rgba(0, 0, 0, 0.1);
       font-size: 50px;
       font-family: 'Kalam', cursive;
-      font-weight: bold;
-      -webkit-user-select: none;
-         -moz-user-select: none;
-          -ms-user-select: none;
-              user-select: none; }
+      font-weight: bold; }
   [data-template="wall"] .wall .wall-ui {
     position: absolute;
     z-index: 100;

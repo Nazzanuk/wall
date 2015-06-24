@@ -3,6 +3,7 @@
         var that = this;
 
         var API_URL = "http://localhost:4000";
+        var API_URL = "https://nameless-beyond-9248.herokuapp.com";
 
         var loadWallList = function (email) {
             return $http.get(API_URL + "/walls/user/" + email);

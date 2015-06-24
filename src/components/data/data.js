@@ -31,29 +31,34 @@
 
         var loadWallList = function () {
             return API.loadWallList(user).then(function (response) {
-                wallList = response.data;
+
+
+                var z = _.clone(response.data);
+                z.push({name:'global'});
+                //console.log(z);
+                wallList = z;
+                return z;
                 return wallList;
-                console.log(wallList);
             });
         };
 
         var loadNotes = function () {
             return API.loadNotes(wall).then(function (response) {
-                console.log(response.data);
+                //console.log(response.data);
                 notes = response.data;
-                console.log(notes);
+                //console.log(notes);
             });
         };
 
         var updateNote = function (note) {
             return API.updateNote(note).then(function () {
-                return loadNotes();
+                //return loadNotes();
             });
         };
 
         var newNote = function (note) {
             return API.newNote(note).then(function () {
-                return loadNotes();
+                //return loadNotes();
             });
         };
 
