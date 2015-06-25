@@ -211,6 +211,22 @@ h1, h2, h3 {
       overflow: hidden; }
     [data-template="wall"] .wall .note:hover .note-close, [data-template="wall"] .wall .note:hover .note-theme {
       opacity: 1; }
+    [data-template="wall"] .wall .note .note-change-icon, [data-template="wall"] .wall .note .note-rotate-icon, [data-template="wall"] .wall .note .note-theme, [data-template="wall"] .wall .note .note-icon {
+      display: none; }
+    [data-template="wall"] .wall .note.icon {
+      color: #a2ed00;
+      color: rgba(0, 0, 0, 0.3);
+      background: none;
+      box-shadow: none; }
+      [data-template="wall"] .wall .note.icon .note-slip, [data-template="wall"] .wall .note.icon .note-content, [data-template="wall"] .wall .note.icon .note-change-size {
+        display: none; }
+      [data-template="wall"] .wall .note.icon .note-change-icon, [data-template="wall"] .wall .note.icon .note-rotate-icon, [data-template="wall"] .wall .note.icon .note-icon {
+        display: block; }
+      [data-template="wall"] .wall .note.icon .note-icon {
+        height: 85px;
+        line-height: 85px;
+        text-align: center;
+        font-size: 50px; }
 
 [data-template="sidebar"] .sidebar {
   position: fixed;

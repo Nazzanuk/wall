@@ -5,6 +5,45 @@
         $scope.scale = 1;
         $scope.colour = 1;
         $scope.GoogleAuth = GoogleAuth;
+        $scope.defaultIcon = 0;
+        $scope.icons = [
+            'long-arrow-right',
+            'arrows-h',
+            'chevron-right',
+            'arrow-right',
+            'angle-right',
+            'hand-o-right',
+            'check',
+            'times',
+            'plus',
+            'minus',
+            'question',
+            'pencil',
+            'search',
+            'star',
+            'file',
+            'comment',
+            'asterisk',
+            'user',
+            'users',
+            'lock',
+            'unlock'
+
+        ];
+
+        var changeIcon = function (index) {
+            getNote(index).icon = getNote(index).icon * 1 + 1;
+            if (getNote(index).icon == $scope.icons.length) {
+                getNote(index).icon = 0;
+            }
+            $scope.defaultIcon = getNote(index).icon;
+            updateNote(index);
+        };
+
+        var changeIconAngle = function (index) {
+            getNote(index).iconAngle = getNote(index).iconAngle * 1 + 90;
+            updateNote(index);
+        };
 
         var changeScale = function (amount) {
             $scope.scale = $scope.scale * 1 + amount;
@@ -14,6 +53,10 @@
         var reduceScale = function (amount) {
             $scope.scale = $scope.scale * 1 - amount;
             $('.wall-zoom')[0].style.zoom = $scope.scale;
+        };
+
+        var getNote = function (index) {
+            return Data.getNotes()[index];
         };
 
         var changeFontSize = function (index, amount) {
@@ -64,51 +107,70 @@
                 }
             }, true);
 
-            $(document).on('mousedown mouseenter',function (e) {
-                Data.loadNotes();
-                console.log('refreshing from click...')
+            $(document).on('mouseup mouseenter',function (e) {
+                update();
+                //console.log('refreshing from click...')
             });
 
             $(window).on('focus', function () {
-                Data.loadNotes();
-                console.log('refreshing from window...')
-            })
-
+                update();
+                //console.log('refreshing from window...')
+            });
         };
+
+        var timeout;
+        var update = function () {
+            console.log('schedule refresh');
+            $timeout.cancel(timeout);
+             timeout = $timeout(function () {
+                 console.log('actual refresh');
+                Data.loadNotes();
+            }, 5000);
+        };
+
+
 
         var start = function () {
             Data.setEmail(GoogleAuth.getEmail());
             Data.loadWallList().then(function (data) {
                 Data.setWall(data[0].name);
             });
+
+            $timeout(function () {
+                update();
+            }, 10000);
         };
 
         var updateNote = function (index) {
             Data.updateNote(Data.getNotes()[index]);
+            update();
         };
 
         var newNote = function (index) {
             Data.newNote(Data.getNotes()[index]);
         };
 
-        var addNote = function () {
+        var addNote = function (type) {
             var note = {
                 wall: Data.getWall(),
                 top: 25055,
                 left: 25055,
-                fontSize: 12,
                 colour: $scope.colour,
                 content: "",
-                angle: _.random(-3, 3)
+                angle: _.random(-3, 3),
+                icon:$scope.defaultIcon,
+                type:type
             };
+
+            if (type == "icon") {
+                note.fontSize = 50;
+                note.iconAngle = 0;
+                note.angle = 0;
+            }
+
 
             Data.getNotes().push(note);
             var index = Data.getNotes().length - 1;
-
-            $timeout(function () {
-                setDraggable($element);
-                $($element).velocity('stop').velocity('transition.fadeIn', {stagger: 100})
-            }, 50);
 
             newNote(index);
         };
@@ -116,7 +178,7 @@
         var removeNote = function (index) {
             Data.getNotes()[index].wall = undefined;
             var $element = $("[note-id='" + index + "']");
-            //$($element).velocity('stop').velocity('transition.swoopOut');
+            $($element).hide();
             updateNote(index);
         };
 
@@ -163,6 +225,8 @@
         $scope.getWall = Data.getWall;
         //$scope.saveNotes = saveNotes;
         $scope.updateNote = updateNote;
+        $scope.changeIconAngle = changeIconAngle;
+        $scope.changeIcon = changeIcon;
         $scope.addNote = addNote;
         $scope.removeNote = removeNote;
         $scope.changeScale = changeScale;

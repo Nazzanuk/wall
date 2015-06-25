@@ -58,7 +58,7 @@
 
         var newNote = function (note) {
             return API.newNote(note).then(function () {
-                //return loadNotes();
+                return loadNotes();
             });
         };
 

@@ -1,7 +1,10 @@
 <div data-template="wall" data-ng-controller="WallCtrl">
     <div class="wall">
         <div class="wall-ui">
-            <div class="ui-btn" ng-click="addNote()">
+            <div class="ui-btn" ng-click="addNote('note')">
+                <i class="fa fa-square-o"></i>
+            </div>
+            <div class="ui-btn" ng-click="addNote('icon')">
                 <i class="fa fa-pencil"></i>
             </div>
         </div>
@@ -15,30 +18,40 @@
         </div>
         <div class="wall-zoom" style="display: inline">
 
-        <div class="wall-canvas">
-            <div class="canvas-title">{{getWall()}}</div>
+            <div class="wall-canvas">
+                <div class="canvas-title">{{getWall()}}</div>
 
-            <div class="note colour-{{note.colour}}"
-                 ng-repeat="note in getNotes() track by $index"
-                 ng-click="$event.stopPropagation()"
-                 note-id="{{$index}}" style="top:{{note.top}}px;left:{{note.left}}px;transform: rotate({{note.angle}}deg)"
-                    >
-                <div class="note-slip"></div>
-                <div class="note-theme" ng-click="changeColour($index); $event.stopPropagation()">
-                    <i class="fa fa-circle"></i>
+                <div class="note colour-{{note.colour}} {{note.type}}"
+                     ng-repeat="note in getNotes() track by $index"
+                     ng-click="$event.stopPropagation()"
+                     note-id="{{$index}}" style="top:{{note.top}}px;left:{{note.left}}px;transform: rotate({{note.angle}}deg)"
+                        >
+                    <div class="note-slip"></div>
+                    <div class="note-theme" ng-click="changeColour($index); $event.stopPropagation()">
+                        <i class="fa fa-circle"></i>
+                    </div>
+                    <div class="note-theme note-change-icon" ng-click="changeIcon($index); $event.stopPropagation()">
+                        <i class="fa fa-pencil"></i>
+                    </div>
+                    <div class="note-theme note-rotate-icon" ng-click="changeIconAngle($index); $event.stopPropagation()">
+                        <i class="fa fa-rotate-right"></i>
+                    </div>
+                    <div class="note-theme note-change-size" ng-click="changeFontSize($index, 2); $event.stopPropagation()">
+                        <i class="fa fa-chevron-up"></i>
+                    </div>
+                    <div class="note-theme note-change-size" ng-click="reduceFontSize($index, 2); $event.stopPropagation()">
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                    <div class="note-close" ng-click="removeNote($index); $event.stopPropagation()">
+                        <i class="fa fa-times"></i>
+                    </div>
+                    <textarea class="note-content" ng-model="note.content" ng-change="updateNote($index)" style="font-size:{{note.fontSize}}px;"></textarea>
+
+                    <div class="note-icon">
+                        <i class="fa fa-{{icons[note.icon]}}" style="font-size:{{note.fontSize}}px;transform:rotate({{note.iconAngle}}deg)"></i>
+                    </div>
                 </div>
-                <div class="note-theme" ng-click="changeFontSize($index, 4); $event.stopPropagation()">
-                    <i class="fa fa-chevron-up"></i>
-                </div>
-                <div class="note-theme" ng-click="reduceFontSize($index, 4); $event.stopPropagation()">
-                    <i class="fa fa-chevron-down"></i>
-                </div>
-                <div class="note-close" ng-click="removeNote($index); $event.stopPropagation()">
-                    <i class="fa fa-times"></i>
-                </div>
-                <textarea class="note-content" ng-model="note.content" ng-change="updateNote($index)" style="font-size:{{note.fontSize}}px;"></textarea>
             </div>
-        </div>
         </div>
     </div>
 </div>

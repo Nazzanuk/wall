@@ -211,6 +211,52 @@
           opacity: 1;
         }
       }
+
+      .note-change-icon, .note-rotate-icon, .note-theme, .note-icon {
+        display: none;
+      }
+
+      &.icon {
+        color: darken($primary,30%);
+        color: rgba(0, 0, 0, 0.3);
+        background: none;
+        box-shadow: none;
+
+        .note-slip, .note-content, .note-change-size {
+          display: none;
+        }
+
+        .note-change-icon, .note-rotate-icon, .note-icon {
+          display: block;
+        }
+
+        .note-icon {
+          height: 85px;
+          line-height: 85px;
+          text-align: center;
+          font-size: 50px;
+        }
+
+//        &.colour-1 {
+//          color: $dark-1;
+//        }
+//
+//        &.colour-2 {
+//          color: darken($secondary,20%);
+//        }
+//
+//        &.colour-3 {
+//          color: darken($third,20%);
+//        }
+//
+//        &.colour-4 {
+//          color: darken($fourth,20%);
+//        }
+//
+//        &.colour-5 {
+//          color: darken($fifth,20%);
+//        }
+      }
     }
   }
 }
