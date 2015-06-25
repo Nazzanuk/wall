@@ -212,7 +212,7 @@
         }
       }
 
-      .note-change-icon, .note-rotate-icon, .note-theme, .note-icon {
+      .note-change-icon, .note-rotate-icon, .note-icon {
         display: none;
       }
 
@@ -222,11 +222,11 @@
         background: none;
         box-shadow: none;
 
-        .note-slip, .note-content, .note-change-size {
+        .note-slip, .note-content, .note-theme {
           display: none;
         }
 
-        .note-change-icon, .note-rotate-icon, .note-icon {
+        .note-change-icon, .note-rotate-icon, .note-icon, .note-change-size {
           display: block;
         }
 
