@@ -1,6 +1,6 @@
 <div data-template="header" data-ng-controller="HeaderCtrl" ng-show="isSignedIn()">
     <div class="header">
-        <div class="header-burger"><i class="fa fa-navicon"></i></div>
+        <div class="header-burger" data-toggle="tooltip" data-placement="right" title="Open Sidebar"><i class="fa fa-navicon"></i></div>
         <div class="header-name" ng-show="isSignedIn()">
             Hi {{getName()}}!
         </div>
@@ -8,5 +8,6 @@
 
         </div>
         <!--Infinite WALL-->
+        WLL.space
     </div>
 </div>

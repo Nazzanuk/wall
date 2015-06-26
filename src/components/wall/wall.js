@@ -28,7 +28,6 @@
             'users',
             'lock',
             'unlock'
-
         ];
 
         var changeIcon = function (index) {
@@ -103,11 +102,12 @@
                 if (isSignedIn) {
                     $timeout(function () {
                         setDraggable($(".note"));
+                        $('[data-toggle="tooltip"]').tooltip();
                     }, 50);
                 }
             }, true);
 
-            $(document).on('mouseup mouseenter',function (e) {
+            $(document).on('mouseup mouseenter', function (e) {
                 update();
                 //console.log('refreshing from click...')
             });
@@ -122,18 +122,24 @@
         var update = function () {
             console.log('schedule refresh');
             $timeout.cancel(timeout);
-             timeout = $timeout(function () {
-                 console.log('actual refresh');
+            timeout = $timeout(function () {
+                console.log('actual refresh');
                 Data.loadNotes();
-            }, 5000);
+                Data.loadWallList();
+            }, 3000);
         };
-
 
 
         var start = function () {
             Data.setEmail(GoogleAuth.getEmail());
+            Data.updateUser();
+            //Data.updateWall({name:GoogleAuth.getEmail(), users:[GoogleAuth.getEmail()]});
             Data.loadWallList().then(function (data) {
-                Data.setWall(data[0].name);
+                if (data[0] == undefined) {
+                    Data.setWall('global');
+                } else {
+                    Data.setWall(data[0].name);
+                }
             });
 
             $timeout(function () {
@@ -151,15 +157,17 @@
         };
 
         var addNote = function (type) {
+            var position = $('.wall-canvas').position();
+
             var note = {
                 wall: Data.getWall(),
-                top: 25055,
-                left: 25055,
+                top: position.top * -1 + 35,
+                left:  position.left * -1 + 95,
                 colour: $scope.colour,
                 content: "",
                 angle: _.random(-3, 3),
-                icon:$scope.defaultIcon,
-                type:type
+                icon: $scope.defaultIcon,
+                type: type
             };
 
             if (type == "icon") {
@@ -203,6 +211,8 @@
         };
 
         var init = function () {
+            //enable tooltips
+            $('[data-toggle="tooltip"]').tooltip();
             //loadScale()
             //loadNotes();
             events();

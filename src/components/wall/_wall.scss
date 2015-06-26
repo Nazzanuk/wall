@@ -29,15 +29,15 @@
       //      transform: scale(0.98);
 
       .canvas-title {
-        height: 100vh;
-        width: 100vw;
-        left: 25000px;
-        top: 25000px;
+//        height: 100vh;
+//        width: 100vw;
+        bottom: 50px;
+        right: 50px;
         //        margin-left: -5;
-        margin-top: -40px;
-        position: absolute;
+//        margin-top: -40px;
+        position: fixed;
         text-align: center;
-        line-height: 100vh;
+        line-height: 1;
         color: rgba(0, 0, 0, 0.1);
         font-size: 50px;
         font-family: 'Kalam', cursive;
@@ -53,16 +53,16 @@
       left: 15px;
 
       .ui-btn {
-        height: 50px;
-        width: 50px;
-        line-height: 50px;
-        border-radius: 50px;
+        height: 40px;
+        width: 40px;
+        line-height: 40px;
+        border-radius: 40px;
         text-align: center;
         background: $dark-1;
         color: white;
         cursor: pointer;
         transition: transform .2s;
-        font-size: 20px;
+        font-size: 18px;
         margin-bottom: 15px;
         box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
         user-select: none;
@@ -79,6 +79,23 @@
 
       &.alt {
         bottom: 0px;
+        top: initial;
+
+        .ui-btn {
+          background: $dark-1;
+//          border: 1px solid darken($primary, 20%);
+//          color: $secondary;
+
+          &:active {
+            background: lighten($dark-1, 20%);
+          }
+        }
+      }
+
+      &.alt-2 {
+        bottom: 0;
+        right: 15px;
+        left: initial;
         top: initial;
 
         .ui-btn {
@@ -222,11 +239,11 @@
         background: none;
         box-shadow: none;
 
-        .note-slip, .note-content, .note-theme {
+        .note-slip, .note-content, .note-theme, .note-change-size {
           display: none;
         }
 
-        .note-change-icon, .note-rotate-icon, .note-icon, .note-change-size {
+        .note-change-icon, .note-rotate-icon, .note-icon {
           display: block;
         }
 

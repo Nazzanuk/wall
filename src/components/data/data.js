@@ -33,11 +33,11 @@
             return API.loadWallList(user).then(function (response) {
 
 
-                var z = _.clone(response.data);
-                z.push({name:'global'});
-                //console.log(z);
-                wallList = z;
-                return z;
+                //var z = _.clone(response.data);
+                //z.push({name:'global'});
+                ////console.log(z);
+                wallList = response.data;
+                //return z;
                 return wallList;
             });
         };
@@ -56,13 +56,27 @@
             });
         };
 
+        var updateUser = function () {
+            return API.updateUser(GoogleAuth.getUser()).then(function () {
+                //return loadNotes();
+            });
+        };
+
+        var updateWall = function (wall) {
+            return API.updateWall(wall).then(function () {
+                //return loadNotes();
+            });
+        };
+
         var newNote = function (note) {
             return API.newNote(note).then(function () {
                 return loadNotes();
             });
         };
 
+        that.updateWall = updateWall;
         that.updateNote = updateNote;
+        that.updateUser = updateUser;
         that.newNote = newNote;
         that.setEmail = setEmail;
         that.setWall = setWall;

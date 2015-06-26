@@ -1,13 +1,33 @@
 (function () {
     app.controller('SidebarCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Data', function ($scope, $timeout, GoogleAuth, Data) {
+
+        $scope.addWallName = "";
+
         var events = function () {
             $(document).on('click','.header-burger', function () {
                 $('.sidebar').velocity('stop').velocity('transition.slideLeftBigIn', {duration:300});
             });
 
             $(document).on('click','.sidebar-close', function () {
-                $('.sidebar').velocity('stop').velocity('transition.slideLeftBigOut', {duration:300});
+                hideSidebar();
             });
+
+            $(document).on('click','.add-wall', function () {
+                $('.add-wall-popup').velocity('stop').velocity('transition.flipYIn', {duration:300});
+                hideSidebar();
+            });
+
+            $(document).on('click','.close-wall-popup', function () {
+                closeWallPopup();
+            });
+        };
+
+        var closeWallPopup = function () {
+            $('.add-wall-popup').velocity('stop').velocity('transition.flipYOut', {duration:300});
+        };
+
+        var hideSidebar = function () {
+            $('.sidebar').velocity('stop').velocity('transition.slideLeftBigOut', {duration: 300});
         };
 
         var init = function () {
@@ -19,9 +39,34 @@
             Data.setWall(wall);
         };
 
+        var setMyWall = function () {
+            setWall(GoogleAuth.getEmail());
+        };
+
+        var validateName = function () {
+            var flag = true;
+
+            flag = flag && $scope.addWallName != "";
+            flag = flag && $scope.addWallName.indexOf(" ") == -1;
+
+            return flag;
+        };
+
+        var addWall = function () {
+            if (!validateName()) return;
+            closeWallPopup();
+            var wallName = $scope.addWallName.toLowerCase();
+            Data.setWall(wallName);
+            Data.updateWall({name:wallName, users:[GoogleAuth.getEmail()]}).then(function () {
+                Data.loadWallList();
+            });
+        };
+
         init();
 
+        $scope.addWall = addWall;
         $scope.setWall = setWall;
+        $scope.setMyWall = setMyWall;
         $scope.getWallList = Data.getWallList;
     }]);
 }());

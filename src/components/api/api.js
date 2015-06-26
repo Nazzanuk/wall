@@ -2,7 +2,7 @@
     app.service('API', ['$rootScope', "$http", function ($rootScope, $http) {
         var that = this;
 
-        var API_URL = "http://localhost:4000";
+        //var API_URL = "http://localhost:4000";
         var API_URL = "https://nameless-beyond-9248.herokuapp.com";
 
         var loadWallList = function (email) {
@@ -24,6 +24,14 @@
             return $http.put(API_URL + "/notes/id/" + id, noteClone);
         };
 
+        var updateUser = function (user) {
+            return $http.put(API_URL + "/users/", user);
+        };
+
+        var updateWall = function (wall) {
+            return $http.put(API_URL + "/walls/", wall);
+        };
+
         var newNote = function (note) {
             return $http.post(API_URL + "/notes/", note);
         };
@@ -32,7 +40,9 @@
         //    return $http.post(API_URL + "/notes/", {});
         //};
 
+        that.updateWall = updateWall;
         that.updateNote = updateNote;
+        that.updateUser = updateUser;
         that.newNote = newNote;
         //that.saveNote = saveNote;
         that.loadNotes = loadNotes;

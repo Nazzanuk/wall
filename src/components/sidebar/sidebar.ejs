@@ -1,11 +1,29 @@
 <div data-template="sidebar" ng-controller="SidebarCtrl">
     <div class="sidebar">
-        <div class="sidebar-close">
+        <div class="sidebar-close" data-toggle="tooltip" data-placement="right" title="Close Sidebar">
             <i class="fa fa-times"></i>
         </div>
 
         <div>&nbsp;</div>
         <h1 class="sidebar-title">Walls</h1>
+        <hr/>
+        <div class="sidebar-wall" ng-click="setWall('global')">global</div>
+        <hr/>
+        <div class="sidebar-wall" ng-click="setMyWall()">My Wall</div>
+        <hr ng-show="getWallList()[0]"/>
         <div class="sidebar-wall" ng-repeat="wall in getWallList()" ng-click="setWall(wall.name)">{{wall.name}}</div>
+        <hr/>
+        <div class="sidebar-wall add-wall"><i class="fa fa-plus"></i> &nbsp; Add Wall</div>
+    </div>
+
+    <div class="popup add-wall-popup">
+        <div class="popup-header">Add Wall <i class="fa fa-times pull-right close-wall-popup"></i></div>
+        <div class="popup-content">
+            <div class="popup-title">Wall Name (lowercase letters and dashes only, no spaces.)</div>
+            <input class="popup-input" ng-model="addWallName" placeholder="new-wall"/>
+            <div class="popup-btn" ng-click="addWall()">Create &nbsp; <i class="fa fa-check"></i></div>
+            <div class="popup-btn colour-2 pull-right close-wall-popup">Close &nbsp; <i class="fa fa-times"></i></div>
+        </div>
+
     </div>
 </div>

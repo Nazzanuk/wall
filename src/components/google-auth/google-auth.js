@@ -6,6 +6,7 @@
 
         var signedIn = false;
         var profile;
+        var id_token;
 
         that.onSignIn = function (googleUser) {
             signedIn = true;
@@ -18,9 +19,10 @@
             //console.log("Email: " + profile.getEmail());
 
             //console.table(profile);
+            console.log(profile);
 
             // The ID token you need to pass to your backend:
-            var id_token = googleUser.getAuthResponse().id_token;
+            id_token = googleUser.getAuthResponse().id_token;
             //console.log("ID Token: " + id_token);
             $rootScope.$apply();
         };
@@ -41,11 +43,23 @@
             return profile.getEmail();
         };
 
+        var getUser = function () {
+            var user = {
+                email : getEmail(),
+                name: getName(),
+                image: getImageUrl(),
+                id_token:id_token
+            };
+
+            return user;
+        };
+
         var isSignedIn = function () {
             return signedIn;
         };
 
         that.isSignedIn = isSignedIn;
+        that.getUser = getUser;
         that.getName = getName;
         that.getImageUrl = getImageUrl;
         that.getEmail = getEmail;

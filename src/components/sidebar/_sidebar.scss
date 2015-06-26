@@ -36,5 +36,79 @@
       }
     }
 
+    hr {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin: 15px;
+    }
+
+  }
+
+  .popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+//    height: 400px;
+    width: 500px;
+    margin: -200px 0 0 -250px;
+    background: white;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+    z-index: 2000;
+    display: none;
+
+    .popup-header {
+      padding: 0 15px;
+      background: $dark-1;
+      line-height: 35px;
+      height: 35px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .popup-content {
+      padding: 15px;
+      position: relative;
+
+      .popup-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .popup-input {
+        border: none;
+        outline: none;
+        background: $light-1;
+        border:1px solid $light-2;
+        line-height: 35px;
+        padding: 0 10px;
+        margin-bottom: 10px;
+        width:100%;
+      }
+
+      .popup-btn {
+        background: $primary;
+        color: $dark-1;
+        line-height: 35px;
+        padding: 0 15px;
+        border-radius: 4px;
+        display: inline-block;
+        cursor:pointer;
+        border:1px solid darken($primary,20%);
+        transition: .2s;
+
+        &:hover {
+          background: darken($primary,20%);;
+        }
+
+        &.colour-2 {
+          background: $secondary;
+          border:1px solid darken($secondary,20%);
+
+          &:hover {
+            background: darken($secondary,20%);;
+          }
+
+        }
+      }
+    }
   }
 }

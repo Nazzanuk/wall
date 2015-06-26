@@ -4,7 +4,7 @@ var _ = require('underscore');
 var request = require('request');
 var http = require('http');
 var app = express();
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var ObjectID = require('mongodb').ObjectID;
 app.use(cors());
 
@@ -59,27 +59,30 @@ app.get('/notes/wall/:wall', function (req, res) {
 });
 
 app.get('/notes/id/:id', function (req, res) {
-    console.log(req.params);
     getNotes({_id: ObjectID(req.params.id)}, {}, function (docs) {
         res.send(docs);
     });
 });
 
 app.put('/notes/id/:id', function (req, res) {
-    console.log(req.params);
-    console.log(req.body);
-    console.log(req.query);
-    //console.log(req.data);
     updateNote({_id: ObjectID(req.params.id)}, req.body, function (docs) {
         res.send(docs);
     });
 });
 
+app.put('/users/', function (req, res) {
+    updateUser({_id: req.body.email}, req.body, function (docs) {
+        res.send(docs);
+    });
+});
+
+app.put('/walls/', function (req, res) {
+    updateWall({name: req.body.name}, req.body, function (docs) {
+        res.send(docs);
+    });
+});
+
 app.post('/notes', function (req, res) {
-    console.log(req.params);
-    console.log(req.body);
-    console.log(req.query);
-    //console.log(req.data);
     insertNote(req.body, function (docs) {
         res.send(docs);
     });
@@ -112,6 +115,24 @@ var updateNote = function (data, fields, callback) {
     });
 };
 
+var updateWall = function (data, fields, callback) {
+    var collection = db.collection('walls');
+
+    collection.update(data, fields, {upsert: true}, function (err, docs) {
+        assert.equal(err, null);
+        callback(docs);
+    });
+};
+
+var updateUser = function (data, fields, callback) {
+    var collection = db.collection('users');
+
+    collection.update(data, fields, {upsert: true}, function (err, docs) {
+        assert.equal(err, null);
+        callback(docs);
+    });
+};
+
 var insertNote = function (fields, callback) {
     var collection = db.collection('notes');
 
@@ -122,9 +143,9 @@ var insertNote = function (fields, callback) {
 };
 
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 4000;
 
-var server = app.listen(process.env.PORT, function () {
+var server = app.listen(port, function () {
 
     var host = server.address().address;
     //var port = server.address().port;

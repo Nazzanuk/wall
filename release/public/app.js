@@ -25,7 +25,7 @@ if (!Object.keys) {
     app.service('API', ['$rootScope', "$http", function ($rootScope, $http) {
         var that = this;
 
-        var API_URL = "http://localhost:4000";
+        //var API_URL = "http://localhost:4000";
         var API_URL = "https://nameless-beyond-9248.herokuapp.com";
 
         var loadWallList = function (email) {
@@ -47,6 +47,14 @@ if (!Object.keys) {
             return $http.put(API_URL + "/notes/id/" + id, noteClone);
         };
 
+        var updateUser = function (user) {
+            return $http.put(API_URL + "/users/", user);
+        };
+
+        var updateWall = function (wall) {
+            return $http.put(API_URL + "/walls/", wall);
+        };
+
         var newNote = function (note) {
             return $http.post(API_URL + "/notes/", note);
         };
@@ -55,7 +63,9 @@ if (!Object.keys) {
         //    return $http.post(API_URL + "/notes/", {});
         //};
 
+        that.updateWall = updateWall;
         that.updateNote = updateNote;
+        that.updateUser = updateUser;
         that.newNote = newNote;
         //that.saveNote = saveNote;
         that.loadNotes = loadNotes;
@@ -100,11 +110,11 @@ if (!Object.keys) {
             return API.loadWallList(user).then(function (response) {
 
 
-                var z = _.clone(response.data);
-                z.push({name:'global'});
-                //console.log(z);
-                wallList = z;
-                return z;
+                //var z = _.clone(response.data);
+                //z.push({name:'global'});
+                ////console.log(z);
+                wallList = response.data;
+                //return z;
                 return wallList;
             });
         };
@@ -123,13 +133,27 @@ if (!Object.keys) {
             });
         };
 
+        var updateUser = function () {
+            return API.updateUser(GoogleAuth.getUser()).then(function () {
+                //return loadNotes();
+            });
+        };
+
+        var updateWall = function (wall) {
+            return API.updateWall(wall).then(function () {
+                //return loadNotes();
+            });
+        };
+
         var newNote = function (note) {
             return API.newNote(note).then(function () {
                 return loadNotes();
             });
         };
 
+        that.updateWall = updateWall;
         that.updateNote = updateNote;
+        that.updateUser = updateUser;
         that.newNote = newNote;
         that.setEmail = setEmail;
         that.setWall = setWall;
@@ -150,6 +174,7 @@ if (!Object.keys) {
 
         var signedIn = false;
         var profile;
+        var id_token;
 
         that.onSignIn = function (googleUser) {
             signedIn = true;
@@ -162,9 +187,10 @@ if (!Object.keys) {
             //console.log("Email: " + profile.getEmail());
 
             //console.table(profile);
+            console.log(profile);
 
             // The ID token you need to pass to your backend:
-            var id_token = googleUser.getAuthResponse().id_token;
+            id_token = googleUser.getAuthResponse().id_token;
             //console.log("ID Token: " + id_token);
             $rootScope.$apply();
         };
@@ -185,11 +211,23 @@ if (!Object.keys) {
             return profile.getEmail();
         };
 
+        var getUser = function () {
+            var user = {
+                email : getEmail(),
+                name: getName(),
+                image: getImageUrl(),
+                id_token:id_token
+            };
+
+            return user;
+        };
+
         var isSignedIn = function () {
             return signedIn;
         };
 
         that.isSignedIn = isSignedIn;
+        that.getUser = getUser;
         that.getName = getName;
         that.getImageUrl = getImageUrl;
         that.getEmail = getEmail;
@@ -214,14 +252,34 @@ function onSignIn(user) {
 
 (function () {
     app.controller('SidebarCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Data', function ($scope, $timeout, GoogleAuth, Data) {
+
+        $scope.addWallName = "";
+
         var events = function () {
             $(document).on('click','.header-burger', function () {
                 $('.sidebar').velocity('stop').velocity('transition.slideLeftBigIn', {duration:300});
             });
 
             $(document).on('click','.sidebar-close', function () {
-                $('.sidebar').velocity('stop').velocity('transition.slideLeftBigOut', {duration:300});
+                hideSidebar();
             });
+
+            $(document).on('click','.add-wall', function () {
+                $('.add-wall-popup').velocity('stop').velocity('transition.flipYIn', {duration:300});
+                hideSidebar();
+            });
+
+            $(document).on('click','.close-wall-popup', function () {
+                closeWallPopup();
+            });
+        };
+
+        var closeWallPopup = function () {
+            $('.add-wall-popup').velocity('stop').velocity('transition.flipYOut', {duration:300});
+        };
+
+        var hideSidebar = function () {
+            $('.sidebar').velocity('stop').velocity('transition.slideLeftBigOut', {duration: 300});
         };
 
         var init = function () {
@@ -233,9 +291,34 @@ function onSignIn(user) {
             Data.setWall(wall);
         };
 
+        var setMyWall = function () {
+            setWall(GoogleAuth.getEmail());
+        };
+
+        var validateName = function () {
+            var flag = true;
+
+            flag = flag && $scope.addWallName != "";
+            flag = flag && $scope.addWallName.indexOf(" ") == -1;
+
+            return flag;
+        };
+
+        var addWall = function () {
+            if (!validateName()) return;
+            closeWallPopup();
+            var wallName = $scope.addWallName.toLowerCase();
+            Data.setWall(wallName);
+            Data.updateWall({name:wallName, users:[GoogleAuth.getEmail()]}).then(function () {
+                Data.loadWallList();
+            });
+        };
+
         init();
 
+        $scope.addWall = addWall;
         $scope.setWall = setWall;
+        $scope.setMyWall = setMyWall;
         $scope.getWallList = Data.getWallList;
     }]);
 }());
@@ -270,7 +353,6 @@ function onSignIn(user) {
             'users',
             'lock',
             'unlock'
-
         ];
 
         var changeIcon = function (index) {
@@ -345,11 +427,12 @@ function onSignIn(user) {
                 if (isSignedIn) {
                     $timeout(function () {
                         setDraggable($(".note"));
+                        $('[data-toggle="tooltip"]').tooltip();
                     }, 50);
                 }
             }, true);
 
-            $(document).on('mouseup mouseenter',function (e) {
+            $(document).on('mouseup mouseenter', function (e) {
                 update();
                 //console.log('refreshing from click...')
             });
@@ -364,18 +447,24 @@ function onSignIn(user) {
         var update = function () {
             console.log('schedule refresh');
             $timeout.cancel(timeout);
-             timeout = $timeout(function () {
-                 console.log('actual refresh');
+            timeout = $timeout(function () {
+                console.log('actual refresh');
                 Data.loadNotes();
-            }, 5000);
+                Data.loadWallList();
+            }, 3000);
         };
-
 
 
         var start = function () {
             Data.setEmail(GoogleAuth.getEmail());
+            Data.updateUser();
+            //Data.updateWall({name:GoogleAuth.getEmail(), users:[GoogleAuth.getEmail()]});
             Data.loadWallList().then(function (data) {
-                Data.setWall(data[0].name);
+                if (data[0] == undefined) {
+                    Data.setWall('global');
+                } else {
+                    Data.setWall(data[0].name);
+                }
             });
 
             $timeout(function () {
@@ -393,15 +482,17 @@ function onSignIn(user) {
         };
 
         var addNote = function (type) {
+            var position = $('.wall-canvas').position();
+
             var note = {
                 wall: Data.getWall(),
-                top: 25055,
-                left: 25055,
+                top: position.top * -1 + 35,
+                left:  position.left * -1 + 95,
                 colour: $scope.colour,
                 content: "",
                 angle: _.random(-3, 3),
-                icon:$scope.defaultIcon,
-                type:type
+                icon: $scope.defaultIcon,
+                type: type
             };
 
             if (type == "icon") {
@@ -445,6 +536,8 @@ function onSignIn(user) {
         };
 
         var init = function () {
+            //enable tooltips
+            $('[data-toggle="tooltip"]').tooltip();
             //loadScale()
             //loadNotes();
             events();
