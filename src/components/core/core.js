@@ -6,6 +6,12 @@
         var wallList = [];
         var email = "";
         var notes = [];
+        var users = [];
+
+        var getWallUsers = function () {
+            console.log(users);
+            return users;
+        };
 
         var setWall = function (wallName) {
             console.log('setWall', wallName);
@@ -30,6 +36,15 @@
             return wall;
         };
 
+        var addWall = function (wall) {
+            SendAPI.addWall(wall);
+            setWall(wall.name);
+        };
+
+        var addWallUser = function (email) {
+            SendAPI.addWallUser(email, wall);
+        };
+
         var getWallList = function () {
             return wallList;
         };
@@ -51,7 +66,9 @@
         };
 
         var receiveNotes = function (data) {
-            if (data[0].wall = wall) {
+            if (data[0] == undefined) {
+                notes = [];
+            } else if (data[0].wall = wall) {
                 notes = data;
             }
             $rootScope.$apply();
@@ -62,14 +79,33 @@
             $rootScope.$apply();
         };
 
+        var receiveWallUsers = function (data) {
+            users = data;
+            $rootScope.$apply();
+        };
+
+        var requestWallList = function () {
+            SendAPI.requestWallList(GoogleAuth.getEmail());
+        };
+
+        var requestWallUsers = function () {
+            SendAPI.requestWallUsers(wall);
+        };
+
+        that.requestWallList = requestWallList;
         that.receiveWallList = receiveWallList;
+        that.addWallUser = addWallUser;
         that.updateNote = updateNote;
         that.updateUser = updateUser;
         that.removeNote = removeNote;
         that.addNote = addNote;
         that.setWall = setWall;
+        that.addWall = addWall;
         that.setEmail = setEmail;
         that.getEmail = getEmail;
+        that.getWallUsers = getWallUsers;
+        that.requestWallUsers = requestWallUsers;
+        that.receiveWallUsers = receiveWallUsers;
         that.getWall = getWall;
         that.getWallList = getWallList;
         that.getNotes = getNotes;

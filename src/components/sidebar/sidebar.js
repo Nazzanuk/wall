@@ -6,6 +6,7 @@
         var events = function () {
             $(document).on('click','.header-burger', function () {
                 $('.sidebar').velocity('stop').velocity('transition.slideLeftBigIn', {duration:300});
+                Core.requestWallList()
             });
 
             $(document).on('click','.sidebar-close', function () {
@@ -56,10 +57,7 @@
             if (!validateName()) return;
             closeWallPopup();
             var wallName = $scope.addWallName.toLowerCase();
-            Core.setWall(wallName);
-            //Core.updateWall({name:wallName, users:[GoogleAuth.getEmail()]}).then(function () {
-            //    Core.loadWallList();
-            //});
+            Core.addWall({name:wallName, users:[GoogleAuth.getEmail()]});
         };
 
         init();

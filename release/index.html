@@ -41,7 +41,7 @@
 
         </div>
         <!--Infinite WALL-->
-        WLL.space
+        WLL.space <strong style="color: #d9ff87">ALPHA</strong>
     </div>
 </div>
 
@@ -54,13 +54,13 @@
         <div>&nbsp;</div>
         <h1 class="sidebar-title">Walls</h1>
         <hr/>
-        <div class="sidebar-wall" ng-click="setWall('global')">global</div>
+        <div class="sidebar-wall" ng-click="setWall('global')">#global</div>
         <hr/>
-        <div class="sidebar-wall" ng-click="setMyWall()">My Wall</div>
+        <div class="sidebar-wall" ng-click="setMyWall()">#my-wall</div>
         <hr ng-show="getWallList()[0]"/>
-        <div class="sidebar-wall" ng-repeat="wall in getWallList()" ng-click="setWall(wall.name)">{{wall.name}}</div>
+        <div class="sidebar-wall" ng-repeat="wall in getWallList()" ng-click="setWall(wall.name)">#{{wall.name}}</div>
         <hr/>
-        <div class="sidebar-wall add-wall"><i class="fa fa-plus"></i> &nbsp; Add Wall</div>
+        <div class="sidebar-wall add-wall"><i class="fa fa-plus"></i> &nbsp; New Wall</div>
     </div>
 
     <div class="popup add-wall-popup">
@@ -99,7 +99,7 @@
             <!--<div class="ui-btn" ng-click="reduceScale(0.1)" data-toggle="tooltip" data-placement="right" title="Zoom Out">-->
                 <!--<i class="fa fa-minus"></i>-->
             <!--</div>-->
-            <div class="ui-btn" ng-click="" data-toggle="tooltip" data-placement="right" title="Add / Remove Collaborators">
+            <div class="ui-btn ui-users-btn" ng-show="getWall() != 'global'" ng-click="" data-toggle="tooltip" data-placement="right" title="Add / Remove Collaborators">
                 <i class="fa fa-users"></i>
             </div>
             <div class="ui-btn" ng-click="" data-toggle="tooltip" data-placement="right" title="Settings">
@@ -117,7 +117,7 @@
         <div class="wall-zoom" style="display: inline">
 
             <div class="wall-canvas">
-                <div class="canvas-title">{{getWall()}}</div>
+                <div class="canvas-title">#{{getWall()}}</div>
 
                 <div class="note colour-{{note.colour}} {{note.type}}"
                      ng-repeat="note in getNotes() track by $index"
@@ -154,6 +154,23 @@
     </div>
 </div>
 
+<div data-template="users-popup" ng-controller="UsersPopupCtrl">
+    <!--<div class="users-popup">-->
+        <div class="popup users-popup">
+            <div class="popup-header">Change Collaborators <i class="fa fa-times pull-right close-users-popup"></i></div>
+            <div class="popup-content">
+                <div class="popup-title">Current Collaborators</div>
+                <div ng-repeat="user in getWallUsers()" class="popup-line"><i class="fa fa-times"></i> &nbsp; {{user}}</div>
+                <hr/>
+                <div class="popup-title">User Email (Must have a Google account!)</div>
+                <input class="popup-input" ng-model="userEmail" placeholder="example@gmail.com"/>
+                <div class="popup-btn" ng-click="addWallUser()">Add Collaborator &nbsp; <i class="fa fa-check"></i></div>
+                <div class="popup-btn colour-2 pull-right close-users-popup">Close &nbsp; <i class="fa fa-times"></i></div>
+            </div>
+
+        </div>
+    <!--</div>-->
+</div>
 <!--footer.ejs-->
 <div data-template="footer">
     <footer id="footer">
@@ -173,18 +190,10 @@
 </script>
 
 
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <script src="/public/lib.js"></script>
 <script src="/public/app.js"></script>
-<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-<script>
-//    var socket = io('http://localhost:4000');
-    var socket = io('https://nameless-beyond-9248.herokuapp.com');
-    socket.on('connect', function(){
-        console.log('connected!')
-    });
-    socket.on('disconnect', function(){});
-</script>
 
 <!--<script type="text/javascript">_satellite.pageBottom();</script>-->
 </body>

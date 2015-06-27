@@ -15,7 +15,7 @@
             <!--<div class="ui-btn" ng-click="reduceScale(0.1)" data-toggle="tooltip" data-placement="right" title="Zoom Out">-->
                 <!--<i class="fa fa-minus"></i>-->
             <!--</div>-->
-            <div class="ui-btn" ng-click="" data-toggle="tooltip" data-placement="right" title="Add / Remove Collaborators">
+            <div class="ui-btn ui-users-btn" ng-show="getWall() != 'global'" ng-click="" data-toggle="tooltip" data-placement="right" title="Add / Remove Collaborators">
                 <i class="fa fa-users"></i>
             </div>
             <div class="ui-btn" ng-click="" data-toggle="tooltip" data-placement="right" title="Settings">
@@ -33,7 +33,7 @@
         <div class="wall-zoom" style="display: inline">
 
             <div class="wall-canvas">
-                <div class="canvas-title">{{getWall()}}</div>
+                <div class="canvas-title">#{{getWall()}}</div>
 
                 <div class="note colour-{{note.colour}} {{note.type}}"
                      ng-repeat="note in getNotes() track by $index"

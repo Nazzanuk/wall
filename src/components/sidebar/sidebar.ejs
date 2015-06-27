@@ -7,13 +7,13 @@
         <div>&nbsp;</div>
         <h1 class="sidebar-title">Walls</h1>
         <hr/>
-        <div class="sidebar-wall" ng-click="setWall('global')">global</div>
+        <div class="sidebar-wall" ng-click="setWall('global')">#global</div>
         <hr/>
-        <div class="sidebar-wall" ng-click="setMyWall()">My Wall</div>
+        <div class="sidebar-wall" ng-click="setMyWall()">#my-wall</div>
         <hr ng-show="getWallList()[0]"/>
-        <div class="sidebar-wall" ng-repeat="wall in getWallList()" ng-click="setWall(wall.name)">{{wall.name}}</div>
+        <div class="sidebar-wall" ng-repeat="wall in getWallList()" ng-click="setWall(wall.name)">#{{wall.name}}</div>
         <hr/>
-        <div class="sidebar-wall add-wall"><i class="fa fa-plus"></i> &nbsp; Add Wall</div>
+        <div class="sidebar-wall add-wall"><i class="fa fa-plus"></i> &nbsp; New Wall</div>
     </div>
 
     <div class="popup add-wall-popup">

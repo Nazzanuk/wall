@@ -18,6 +18,10 @@
             socket.on('wall-list', function(data){
                 wallList(data);
             });
+
+            socket.on('wall-users', function(data){
+                wallUsers(data);
+            });
         };
 
         var notes = function (data) {
@@ -25,8 +29,13 @@
         };
 
         var wallList = function (data) {
-            console.log('wall-list', data)
+            console.log('wall-list', data);
             Core.receiveWallList(data);
+        };
+
+        var wallUsers = function (data) {
+            console.log('wall-users', data);
+            Core.receiveWallUsers(data);
         };
 
         var init = function () {

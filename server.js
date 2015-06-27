@@ -20,9 +20,22 @@ io.on('connection', function(socket){
 
     socket.on('join-room', function(room){
         console.log('join-room', room);
+        for (var i in socket.rooms) {
+            socket.leave(socket.rooms[i]);
+        }
         socket.join(room);
         getNotes({wall: room}, {}, function (docs) {
             io.to(room).emit('notes', docs);
+        });
+        //get wall users
+        getWalls({name: room}, {users: 1}, function (docs) {
+            console.log(docs);
+            if (docs.length > 0){
+                socket.emit('wall-users', docs[0].users);
+            } else {
+                socket.emit('wall-users', []);
+            }
+
         });
     });
 
@@ -72,6 +85,44 @@ io.on('connection', function(socket){
             getWalls({users: {$in: [user.email]}}, {name: 1}, function (docs) {
                 socket.emit('wall-list', docs);
             });
+        });
+    });
+
+    socket.on('add-wall', function(wall){
+        console.log('add-wall', wall);
+
+        updateWall({name: wall.name}, wall, function (docs) {
+            console.log(docs.result);
+            getWalls({users: {$in: [wall.users[0]]}}, {name: 1}, function (docs) {
+                socket.emit('wall-list', docs);
+            });
+        });
+    });
+
+    socket.on('add-wall-user', function(data){
+        console.log('add-wall-user', data);
+
+        updateWall({name: data.wallName}, {$push:{users:data.email}}, function (docs) {
+            console.log(docs.result);
+            getWalls({name: data.wallName}, {users: 1}, function (docs) {
+                socket.emit('wall-users', docs[0].users);
+            });
+        });
+    });
+
+    socket.on('request-wall-list', function(email){
+        console.log('request-wall-list', email);
+
+        getWalls({users: {$in: [email]}}, {name: 1}, function (docs) {
+            socket.emit('wall-list', docs);
+        });
+    });
+
+    socket.on('request-wall-users', function(wallName){
+        console.log('request-wall-users', wallName);
+
+        getWalls({name: wallName}, {users: 1}, function (docs) {
+            socket.emit('wall-users', docs[0].users);
         });
     });
 });

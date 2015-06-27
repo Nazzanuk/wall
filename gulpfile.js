@@ -75,7 +75,7 @@ gulp.task("copy-public", function(){
 
 gulp.task("gen-html", function(){
     var pages = {
-        index: ['head', 'header', 'sidebar', 'google-auth', 'wall', 'footer']
+        index: ['head', 'header', 'sidebar', 'google-auth', 'wall', 'users-popup', 'footer']
     };
 
 

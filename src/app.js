@@ -21,3 +21,10 @@ if (!Object.keys) {
         return keys;
     };
 }
+
+var socket = io('http://localhost:4000');
+//    var socket = io('https://nameless-beyond-9248.herokuapp.com');
+socket.on('connect', function(){
+    console.log('connected!')
+});
+socket.on('disconnect', function(){});

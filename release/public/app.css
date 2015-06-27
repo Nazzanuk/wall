@@ -24,6 +24,61 @@ h1, h2, h3 {
   white-space: nowrap;
   z-index: 100000; }
 
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  margin: -200px 0 0 -250px;
+  background: white;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  z-index: 2000;
+  display: none; }
+  .popup .popup-header {
+    padding: 0 15px;
+    background: #181818;
+    line-height: 35px;
+    height: 35px;
+    font-weight: bold;
+    color: white; }
+    .popup .popup-header i.fa {
+      cursor: pointer; }
+  .popup .popup-content {
+    padding: 15px;
+    position: relative; }
+    .popup .popup-content .popup-title {
+      font-weight: bold;
+      margin-bottom: 10px; }
+    .popup .popup-content .popup-line {
+      margin-bottom: 10px; }
+    .popup .popup-content .popup-input {
+      border: none;
+      outline: none;
+      background: #f7f7f7;
+      border: 1px solid #E3E5D7;
+      line-height: 35px;
+      padding: 0 10px;
+      margin-bottom: 10px;
+      width: 100%; }
+    .popup .popup-content .popup-btn {
+      background: #d9ff87;
+      color: #181818;
+      line-height: 35px;
+      padding: 0 15px;
+      border-radius: 4px;
+      display: inline-block;
+      cursor: pointer;
+      border: 1px solid #b9ff21;
+      -webkit-transition: .2s;
+              transition: .2s; }
+      .popup .popup-content .popup-btn:hover {
+        background: #b9ff21; }
+      .popup .popup-content .popup-btn.colour-2 {
+        background: #ffa6a0;
+        border: 1px solid #ff463a; }
+        .popup .popup-content .popup-btn.colour-2:hover {
+          background: #ff463a; }
+
 [data-template="header"] .header {
   position: fixed;
   top: 0;
@@ -275,56 +330,6 @@ h1, h2, h3 {
   [data-template="sidebar"] .sidebar hr {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     margin: 15px; }
-[data-template="sidebar"] .popup {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 500px;
-  margin: -200px 0 0 -250px;
-  background: white;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-  z-index: 2000;
-  display: none; }
-  [data-template="sidebar"] .popup .popup-header {
-    padding: 0 15px;
-    background: #181818;
-    line-height: 35px;
-    height: 35px;
-    font-weight: bold;
-    color: white; }
-  [data-template="sidebar"] .popup .popup-content {
-    padding: 15px;
-    position: relative; }
-    [data-template="sidebar"] .popup .popup-content .popup-title {
-      font-weight: bold;
-      margin-bottom: 10px; }
-    [data-template="sidebar"] .popup .popup-content .popup-input {
-      border: none;
-      outline: none;
-      background: #f7f7f7;
-      border: 1px solid #E3E5D7;
-      line-height: 35px;
-      padding: 0 10px;
-      margin-bottom: 10px;
-      width: 100%; }
-    [data-template="sidebar"] .popup .popup-content .popup-btn {
-      background: #d9ff87;
-      color: #181818;
-      line-height: 35px;
-      padding: 0 15px;
-      border-radius: 4px;
-      display: inline-block;
-      cursor: pointer;
-      border: 1px solid #b9ff21;
-      -webkit-transition: .2s;
-              transition: .2s; }
-      [data-template="sidebar"] .popup .popup-content .popup-btn:hover {
-        background: #b9ff21; }
-      [data-template="sidebar"] .popup .popup-content .popup-btn.colour-2 {
-        background: #ffa6a0;
-        border: 1px solid #ff463a; }
-        [data-template="sidebar"] .popup .popup-content .popup-btn.colour-2:hover {
-          background: #ff463a; }
 
 [data-template="google-auth"] .google-auth {
   text-align: center;
@@ -339,3 +344,4 @@ h1, h2, h3 {
     margin-bottom: 30px; }
   [data-template="google-auth"] .google-auth .abcRioButton {
     margin: auto; }
+

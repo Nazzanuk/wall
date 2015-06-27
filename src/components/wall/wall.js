@@ -68,14 +68,14 @@
 
         var changeFontSize = function (index, amount) {
             var note = getNote(index);
-            note.fontSize = note.fontSize == 'undefined' ? 12 :  note.fontSize;
+            note.fontSize = note.fontSize == undefined ? 12 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) + amount;
             updateNote(index);
         };
 
         var reduceFontSize = function (index, amount) {
             var note = getNote(index);
-            note.fontSize = note.fontSize == 'undefined' ? 12 :  note.fontSize;
+            note.fontSize = note.fontSize == undefined ? 12 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) - amount;
             updateNote(index);
         };
@@ -135,6 +135,7 @@
                 colour: $scope.colour,
                 content: "",
                 angle: _.random(-3, 3),
+                fontSize:12,
                 icon: $scope.defaultIcon,
                 type: type
             };

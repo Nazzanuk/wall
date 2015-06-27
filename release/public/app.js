@@ -21,6 +21,13 @@ if (!Object.keys) {
         return keys;
     };
 }
+
+var socket = io('http://localhost:4000');
+//    var socket = io('https://nameless-beyond-9248.herokuapp.com');
+socket.on('connect', function(){
+    console.log('connected!')
+});
+socket.on('disconnect', function(){});
 (function () {
     app.service('API', ['$rootScope', "$http", function ($rootScope, $http) {
         //var that = this;
@@ -95,6 +102,10 @@ if (!Object.keys) {
             socket.on('wall-list', function(data){
                 wallList(data);
             });
+
+            socket.on('wall-users', function(data){
+                wallUsers(data);
+            });
         };
 
         var notes = function (data) {
@@ -102,8 +113,13 @@ if (!Object.keys) {
         };
 
         var wallList = function (data) {
-            console.log('wall-list', data)
+            console.log('wall-list', data);
             Core.receiveWallList(data);
+        };
+
+        var wallUsers = function (data) {
+            console.log('wall-users', data);
+            Core.receiveWallUsers(data);
         };
 
         var init = function () {
@@ -137,15 +153,35 @@ if (!Object.keys) {
             socket.emit('add-note', note);
         };
 
+        var addWallUser = function (email, wallName) {
+            socket.emit('add-wall-user', {email: email, wallName: wallName});
+        };
+
+        var requestWallList = function (email) {
+            socket.emit('request-wall-list', email);
+        };
+
+        var requestWallUsers = function (wallName) {
+            socket.emit('request-wall-users', wallName);
+        };
+
+        var addWall = function (wall) {
+            socket.emit('add-wall', wall);
+        };
+
         var removeNote = function (note) {
             socket.emit('remove-note', note);
         };
 
+        that.requestWallUsers = requestWallUsers;
+        that.addWallUser = addWallUser;
         that.removeNote = removeNote;
         that.updateUser = updateUser;
         that.addNote = addNote;
+        that.addWall = addWall;
         that.updateNote = updateNote;
         that.setWall = setWall;
+        that.requestWallList = requestWallList;
 
         return that;
     }]);
@@ -158,6 +194,12 @@ if (!Object.keys) {
         var wallList = [];
         var email = "";
         var notes = [];
+        var users = [];
+
+        var getWallUsers = function () {
+            console.log(users);
+            return users;
+        };
 
         var setWall = function (wallName) {
             console.log('setWall', wallName);
@@ -182,6 +224,15 @@ if (!Object.keys) {
             return wall;
         };
 
+        var addWall = function (wall) {
+            SendAPI.addWall(wall);
+            setWall(wall.name);
+        };
+
+        var addWallUser = function (email) {
+            SendAPI.addWallUser(email, wall);
+        };
+
         var getWallList = function () {
             return wallList;
         };
@@ -203,7 +254,9 @@ if (!Object.keys) {
         };
 
         var receiveNotes = function (data) {
-            if (data[0].wall = wall) {
+            if (data[0] == undefined) {
+                notes = [];
+            } else if (data[0].wall = wall) {
                 notes = data;
             }
             $rootScope.$apply();
@@ -214,14 +267,33 @@ if (!Object.keys) {
             $rootScope.$apply();
         };
 
+        var receiveWallUsers = function (data) {
+            users = data;
+            $rootScope.$apply();
+        };
+
+        var requestWallList = function () {
+            SendAPI.requestWallList(GoogleAuth.getEmail());
+        };
+
+        var requestWallUsers = function () {
+            SendAPI.requestWallUsers(wall);
+        };
+
+        that.requestWallList = requestWallList;
         that.receiveWallList = receiveWallList;
+        that.addWallUser = addWallUser;
         that.updateNote = updateNote;
         that.updateUser = updateUser;
         that.removeNote = removeNote;
         that.addNote = addNote;
         that.setWall = setWall;
+        that.addWall = addWall;
         that.setEmail = setEmail;
         that.getEmail = getEmail;
+        that.getWallUsers = getWallUsers;
+        that.requestWallUsers = requestWallUsers;
+        that.receiveWallUsers = receiveWallUsers;
         that.getWall = getWall;
         that.getWallList = getWallList;
         that.getNotes = getNotes;
@@ -413,6 +485,7 @@ function onSignIn(user) {
         var events = function () {
             $(document).on('click','.header-burger', function () {
                 $('.sidebar').velocity('stop').velocity('transition.slideLeftBigIn', {duration:300});
+                Core.requestWallList()
             });
 
             $(document).on('click','.sidebar-close', function () {
@@ -463,10 +536,7 @@ function onSignIn(user) {
             if (!validateName()) return;
             closeWallPopup();
             var wallName = $scope.addWallName.toLowerCase();
-            Core.setWall(wallName);
-            //Core.updateWall({name:wallName, users:[GoogleAuth.getEmail()]}).then(function () {
-            //    Core.loadWallList();
-            //});
+            Core.addWall({name:wallName, users:[GoogleAuth.getEmail()]});
         };
 
         init();
@@ -475,6 +545,47 @@ function onSignIn(user) {
         $scope.setWall = setWall;
         $scope.setMyWall = setMyWall;
         $scope.getWallList = Core.getWallList;
+    }]);
+}());
+
+(function () {
+    app.controller('UsersPopupCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Core', function ($scope, $timeout, GoogleAuth, Core) {
+
+        $scope.userEmail = "example@gmail.com";
+
+        var events = function () {
+
+            $(document).on('click','.ui-users-btn', function () {
+                openUsersPopup();
+            });
+
+            $(document).on('click','.close-users-popup', function () {
+                closeUsersPopup();
+            });
+        };
+
+        var openUsersPopup = function () {
+            $('.users-popup').velocity('stop').velocity('transition.flipYIn', {duration:300});
+            Core.requestWallUsers();
+        };
+
+        var closeUsersPopup = function () {
+            $('.users-popup').velocity('stop').velocity('transition.flipYOut', {duration:300});
+        };
+
+        var addWallUser = function () {
+            Core.addWallUser($scope.userEmail);
+        };
+
+        var init = function () {
+            events();
+        };
+
+        init();
+
+        $scope.addWallUser = addWallUser;
+        $scope.getWallUsers = Core.getWallUsers;
+        $scope.requestWallUsers = Core.requestWallUsers;
     }]);
 }());
 
@@ -548,14 +659,14 @@ function onSignIn(user) {
 
         var changeFontSize = function (index, amount) {
             var note = getNote(index);
-            note.fontSize = note.fontSize == 'undefined' ? 12 :  note.fontSize;
+            note.fontSize = note.fontSize == undefined ? 12 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) + amount;
             updateNote(index);
         };
 
         var reduceFontSize = function (index, amount) {
             var note = getNote(index);
-            note.fontSize = note.fontSize == 'undefined' ? 12 :  note.fontSize;
+            note.fontSize = note.fontSize == undefined ? 12 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) - amount;
             updateNote(index);
         };
@@ -615,6 +726,7 @@ function onSignIn(user) {
                 colour: $scope.colour,
                 content: "",
                 angle: _.random(-3, 3),
+                fontSize:12,
                 icon: $scope.defaultIcon,
                 type: type
             };
