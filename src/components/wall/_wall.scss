@@ -26,15 +26,10 @@
       linear-gradient(#f7f7f7 5%, transparent 6%);
       background-size: 20px 20px;
       position: relative;
-      //      transform: scale(0.98);
 
       .canvas-title {
-//        height: 100vh;
-//        width: 100vw;
-        bottom: 50px;
-        right: 50px;
-        //        margin-left: -5;
-//        margin-top: -40px;
+        bottom: 30px;
+        left: 90px;
         position: fixed;
         text-align: center;
         line-height: 1;
@@ -238,6 +233,15 @@
         color: rgba(0, 0, 0, 0.3);
         background: none;
         box-shadow: none;
+        padding: 10px 10px 0;
+        height: initial;
+        width: initial;
+
+        .note-content {
+          height: initial;
+          width: initial;
+          line-height: 1;
+        }
 
         .note-slip, .note-content, .note-theme, .note-change-size {
           display: none;
@@ -248,8 +252,8 @@
         }
 
         .note-icon {
-          height: 85px;
-          line-height: 85px;
+//          height: 85px;
+//          line-height: 85px;
           text-align: center;
           font-size: 50px;
         }

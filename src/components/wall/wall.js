@@ -1,5 +1,5 @@
 (function () {
-    app.controller('WallCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Data', function ($scope, $timeout, GoogleAuth, Data) {
+    app.controller('WallCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Core', 'ReceiveAPI', function ($scope, $timeout, GoogleAuth, Core, ReceiveAPI) {
 
         $scope.notes = [];
         $scope.scale = 1;
@@ -55,29 +55,35 @@
         };
 
         var getNote = function (index) {
-            return Data.getNotes()[index];
+            return getNotes()[index];
+        };
+
+        var getNotes = function () {
+            return Core.getNotes();
+        };
+
+        var getWall = function () {
+            return Core.getWall();
         };
 
         var changeFontSize = function (index, amount) {
-            if (typeof (Data.getNotes()[index].fontSize) == 'undefined') {
-                Data.getNotes()[index].fontSize = 12;
-            }
-            Data.getNotes()[index].fontSize = (Data.getNotes()[index].fontSize * 1) + amount;
+            var note = getNote(index);
+            note.fontSize = note.fontSize == 'undefined' ? 12 :  note.fontSize;
+            note.fontSize = parseInt(note.fontSize) + amount;
             updateNote(index);
         };
 
         var reduceFontSize = function (index, amount) {
-            if (typeof (Data.getNotes()[index].fontSize) == 'undefined') {
-                Data.getNotes()[index].fontSize = 12;
-            }
-            Data.getNotes()[index].fontSize = (Data.getNotes()[index].fontSize * 1) - amount;
+            var note = getNote(index);
+            note.fontSize = note.fontSize == 'undefined' ? 12 :  note.fontSize;
+            note.fontSize = parseInt(note.fontSize) - amount;
             updateNote(index);
         };
 
         var changeColour = function (index) {
-            Data.getNotes()[index].colour++;
-            if (Data.getNotes()[index].colour > 5) {
-                Data.getNotes()[index].colour = 0;
+            getNote(index).colour++;
+            if (getNote(index).colour > 5) {
+                getNote(index).colour = 0;
             }
             updateNote(index);
         };
@@ -96,7 +102,7 @@
             }, true);
 
             $scope.$watch(function () {
-                return Data.getNotes();
+                return getNotes();
             }, function (isSignedIn) {
                 //console.log(isSignedIn);
                 if (isSignedIn) {
@@ -106,63 +112,26 @@
                     }, 50);
                 }
             }, true);
-
-            $(document).on('mouseup mouseenter', function (e) {
-                update();
-                //console.log('refreshing from click...')
-            });
-
-            $(window).on('focus', function () {
-                update();
-                //console.log('refreshing from window...')
-            });
-        };
-
-        var timeout;
-        var update = function () {
-            console.log('schedule refresh');
-            $timeout.cancel(timeout);
-            timeout = $timeout(function () {
-                console.log('actual refresh');
-                Data.loadNotes();
-                Data.loadWallList();
-            }, 3000);
         };
 
 
         var start = function () {
-            Data.setEmail(GoogleAuth.getEmail());
-            Data.updateUser();
-            //Data.updateWall({name:GoogleAuth.getEmail(), users:[GoogleAuth.getEmail()]});
-            Data.loadWallList().then(function (data) {
-                if (data[0] == undefined) {
-                    Data.setWall('global');
-                } else {
-                    Data.setWall(data[0].name);
-                }
-            });
-
-            $timeout(function () {
-                update();
-            }, 10000);
+            Core.setEmail(GoogleAuth.getEmail());
+            Core.updateUser();
+            Core.setWall('global');
         };
 
         var updateNote = function (index) {
-            Data.updateNote(Data.getNotes()[index]);
-            update();
-        };
-
-        var newNote = function (index) {
-            Data.newNote(Data.getNotes()[index]);
+            Core.updateNote(getNote(index));
         };
 
         var addNote = function (type) {
             var position = $('.wall-canvas').position();
 
             var note = {
-                wall: Data.getWall(),
+                wall: getWall(),
                 top: position.top * -1 + 35,
-                left:  position.left * -1 + 95,
+                left: position.left * -1 + 95,
                 colour: $scope.colour,
                 content: "",
                 angle: _.random(-3, 3),
@@ -176,45 +145,35 @@
                 note.angle = 0;
             }
 
-
-            Data.getNotes().push(note);
-            var index = Data.getNotes().length - 1;
-
-            newNote(index);
+            Core.addNote(note);
         };
 
         var removeNote = function (index) {
-            Data.getNotes()[index].wall = undefined;
-            var $element = $("[note-id='" + index + "']");
-            $($element).hide();
-            updateNote(index);
+            Core.removeNote(getNote(index));
         };
 
         var setDraggable = function ($element) {
-
             //console.log($element);
             $scope.$apply();
             $element.draggable({
                 cancel: ".note-header, .note-content, .note-close, .note-theme",
-                stop: function (event, ui) {
-                    //console.log(event, ui);
-                    //console.log($('.wall-canvas').offset());
+                drag: function (event, ui) {
                     var id = $(event.target).attr("note-id");
-                    //console.log('Data.getNotes()[id]', Data.getNotes()[id]);
-                    Data.getNotes()[id].top = Math.round((ui.offset.top - $('.wall-canvas').offset().top) / 20) * 20;
-                    Data.getNotes()[id].left = Math.round((ui.offset.left - $('.wall-canvas').offset().left) / 20) * 20;
-                    $scope.$apply();
-                    $(event.target).show();
+                    getNote(id).top = ui.offset.top - $('.wall-canvas').offset().top;
+                    getNote(id).left = ui.offset.left - $('.wall-canvas').offset().left;
+                    updateNote(id);
+                },
+                stop: function (event, ui) {
+                    var id = $(event.target).attr("note-id");
+                    getNote(id).top = Math.round((ui.offset.top - $('.wall-canvas').offset().top) / 20) * 20;
+                    getNote(id).left = Math.round((ui.offset.left - $('.wall-canvas').offset().left) / 20) * 20;
                     updateNote(id);
                 }
             });
         };
 
         var init = function () {
-            //enable tooltips
             $('[data-toggle="tooltip"]').tooltip();
-            //loadScale()
-            //loadNotes();
             events();
 
             $timeout(function () {
@@ -223,17 +182,14 @@
                     cancel: ".note"
                 });
                 setDraggable($(".note"));
-                $('.note').velocity('stop').velocity('transition.fadeIn', {stagger: 100});
                 $('.wall-ui .ui-btn').velocity('stop').velocity('transition.fadeIn', {delay: 1000});
             }, 50);
         };
 
         init();
 
-        //$scope.notes = notes;
-        $scope.getNotes = Data.getNotes;
-        $scope.getWall = Data.getWall;
-        //$scope.saveNotes = saveNotes;
+        $scope.getNotes = getNotes;
+        $scope.getWall = getWall;
         $scope.updateNote = updateNote;
         $scope.changeIconAngle = changeIconAngle;
         $scope.changeIcon = changeIcon;

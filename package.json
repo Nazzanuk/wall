@@ -39,6 +39,7 @@
     "jsonfile": "^2.0.0",
     "mongodb": "^2.0.35",
     "request": "^2.55.0",
+    "socket.io": "^1.3.5",
     "underscore": "^1.8.3"
   }
 }

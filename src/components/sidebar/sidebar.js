@@ -1,5 +1,5 @@
 (function () {
-    app.controller('SidebarCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Data', function ($scope, $timeout, GoogleAuth, Data) {
+    app.controller('SidebarCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Core', function ($scope, $timeout, GoogleAuth, Core) {
 
         $scope.addWallName = "";
 
@@ -36,7 +36,7 @@
 
         var setWall = function (wall) {
             $('.sidebar').velocity('stop').velocity('transition.slideLeftBigOut', {duration:300});
-            Data.setWall(wall);
+            Core.setWall(wall);
         };
 
         var setMyWall = function () {
@@ -56,10 +56,10 @@
             if (!validateName()) return;
             closeWallPopup();
             var wallName = $scope.addWallName.toLowerCase();
-            Data.setWall(wallName);
-            Data.updateWall({name:wallName, users:[GoogleAuth.getEmail()]}).then(function () {
-                Data.loadWallList();
-            });
+            Core.setWall(wallName);
+            //Core.updateWall({name:wallName, users:[GoogleAuth.getEmail()]}).then(function () {
+            //    Core.loadWallList();
+            //});
         };
 
         init();
@@ -67,6 +67,6 @@
         $scope.addWall = addWall;
         $scope.setWall = setWall;
         $scope.setMyWall = setMyWall;
-        $scope.getWallList = Data.getWallList;
+        $scope.getWallList = Core.getWallList;
     }]);
 }());

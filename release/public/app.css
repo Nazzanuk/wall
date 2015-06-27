@@ -84,8 +84,8 @@ h1, h2, h3 {
     background-size: 20px 20px;
     position: relative; }
     [data-template="wall"] .wall .wall-canvas .canvas-title {
-      bottom: 50px;
-      right: 50px;
+      bottom: 30px;
+      left: 90px;
       position: fixed;
       text-align: center;
       line-height: 1;
@@ -227,14 +227,19 @@ h1, h2, h3 {
       color: #a2ed00;
       color: rgba(0, 0, 0, 0.3);
       background: none;
-      box-shadow: none; }
+      box-shadow: none;
+      padding: 10px 10px 0;
+      height: initial;
+      width: initial; }
+      [data-template="wall"] .wall .note.icon .note-content {
+        height: initial;
+        width: initial;
+        line-height: 1; }
       [data-template="wall"] .wall .note.icon .note-slip, [data-template="wall"] .wall .note.icon .note-content, [data-template="wall"] .wall .note.icon .note-theme, [data-template="wall"] .wall .note.icon .note-change-size {
         display: none; }
       [data-template="wall"] .wall .note.icon .note-change-icon, [data-template="wall"] .wall .note.icon .note-rotate-icon, [data-template="wall"] .wall .note.icon .note-icon {
         display: block; }
       [data-template="wall"] .wall .note.icon .note-icon {
-        height: 85px;
-        line-height: 85px;
         text-align: center;
         font-size: 50px; }
 

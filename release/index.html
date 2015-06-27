@@ -12,11 +12,13 @@
 
     <link rel="stylesheet" href="/public/lib.css"/>
     <link rel="stylesheet" href="/public/app.css"/>
-    <link rel="stylesheet" href="/public/fontawesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
     <link href='http://fonts.googleapis.com/css?family=Shadows+Into+Light|Droid+Serif:400,700|Indie+Flower|Covered+By+Your+Grace|Shadows+Into+Light+Two' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,600,700,200italic,300italic,400italic,600italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Architects+Daughter|Kalam:400,700,300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Patrick+Hand|Indie+Flower|Architects+Daughter&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+
 
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="227613390302-j01otbkldjgj8o5ct51u96vk3pakugdg.apps.googleusercontent.com">
@@ -173,6 +175,15 @@
 
 <script src="/public/lib.js"></script>
 <script src="/public/app.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+<script>
+    var socket = io('http://localhost:4000');
+    socket.on('connect', function(){
+        console.log('connected!')
+    });
+    socket.on('disconnect', function(){});
+</script>
 
 <!--<script type="text/javascript">_satellite.pageBottom();</script>-->
 </body>

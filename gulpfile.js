@@ -54,7 +54,7 @@ gulp.task("gen-js-lib", function(){
     return gulp.src([
         'src/bower-components/jquery/dist/jquery.min.js',
         'src/bower-components/jquery-ui/jquery-ui.min.js',
-        'src/bower-components/jqueryui-touch-punch/jquery.ui.touch.punch.min.js',
+        //'src/bower-components/jqueryui-touch-punch/jquery.ui.touch-punch.js',
         'src/bower-components/angular/angular.min.js',
         'src/bower-components/velocity/velocity.min.js',
         'src/bower-components/velocity/velocity.ui.min.js',
