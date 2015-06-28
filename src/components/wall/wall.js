@@ -68,14 +68,14 @@
 
         var changeFontSize = function (index, amount) {
             var note = getNote(index);
-            note.fontSize = note.fontSize == undefined ? 12 :  note.fontSize;
+            note.fontSize = note.fontSize == undefined ? 16 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) + amount;
             updateNote(index);
         };
 
         var reduceFontSize = function (index, amount) {
             var note = getNote(index);
-            note.fontSize = note.fontSize == undefined ? 12 :  note.fontSize;
+            note.fontSize = note.fontSize == undefined ? 16 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) - amount;
             updateNote(index);
         };
@@ -125,17 +125,23 @@
             Core.updateNote(getNote(index));
         };
 
-        var addNote = function (type) {
+        var addNote = function (type, modifier) {
+            if (modifier == undefined) {
+                modifier = {};
+                modifier.top = 75;
+                modifier.left = 95;
+            }
+
             var position = $('.wall-canvas').position();
 
             var note = {
                 wall: getWall(),
-                top: position.top * -1 + 35,
-                left: position.left * -1 + 95,
+                top: position.top * -1 + modifier.top - 40,
+                left: position.left * -1 + modifier.left,
                 colour: $scope.colour,
                 content: "",
                 angle: _.random(-3, 3),
-                fontSize:12,
+                fontSize:16,
                 icon: $scope.defaultIcon,
                 type: type
             };
@@ -173,9 +179,26 @@
             });
         };
 
+        var shortcuts = function () {
+            $(document).on('keydown', function (e) {
+                if (e.ctrlKey) {
+                    switch (e.keyCode) {
+                        case 78:
+                            addNote('note', currentMousePos);
+                            break;
+                        case 73:
+                            addNote('icon', currentMousePos);
+                            break;
+                    }
+                }
+                console.log(e);
+            });
+        };
+
         var init = function () {
             $('[data-toggle="tooltip"]').tooltip();
             events();
+            shortcuts();
 
             $timeout(function () {
                 //$('.wall').velocity('transition.slideUpIn');

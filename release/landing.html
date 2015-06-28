@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<script src="//assets.adobedtm.com/9b346bffe2591722c64f88bf101c0664c8936e16/satelliteLib-93e274c58a6ad1ed12b80e4d8c0a01144cd6e324.js"></script>-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <title>Your Wall</title>
+
+    <meta name="description" content="Your virtual post-it and sticky  wall."/>
+    <meta name="google-site-verification" content="pBKCJt-19i0-qQCVbi5EEKn3bQ_c_i5ofFwMzGs3Q-o" />
+
+    <link rel="stylesheet" href="/public/lib.css"/>
+    <link rel="stylesheet" href="/public/app.css"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Shadows+Into+Light|Droid+Serif:400,700|Indie+Flower|Covered+By+Your+Grace|Shadows+Into+Light+Two' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,600,700,200italic,300italic,400italic,600italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Architects+Daughter|Kalam:400,700,300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Patrick+Hand|Indie+Flower|Architects+Daughter&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+
+
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="227613390302-j01otbkldjgj8o5ct51u96vk3pakugdg.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+<body data-ng-app="app" class="<%= content.class %>">
+<script>
+//    chrome.browserAction.onClicked.addListener(function() {
+//        chrome.windows.create({'url': 'scribe.storynatives.com', 'type': 'popup'}, function(window) {
+//        });
+//    });
+</script>
+<div data-template="landing">
+    <div class="landing">
+        <div class="landing-header">
+            <div class="container">
+                STYCKI
+            </div>
+        </div>
+        <div class="landing-banner">
+            <div class="container">
+                <!--<div class="col-sm-1"></div>-->
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="banner-title"><strong>Ideas, lists & projects <br/>beautifully organised.</strong></div>
+                    <hr/>
+                    <p>Sign up today for beta access.</p>
+                    <input class="banner-input" type="text" placeholder="Enter your email"/>
+                    <div class="banner-btn">Sign Up &nbsp; <i class="fa fa-check"></i></div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="banner-img">
+                        <img src="/public/img/banner-1.png" alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--footer.ejs-->
+<div data-template="footer">
+    <footer id="footer">
+
+    </footer>
+</div>
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-60482497-3', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+<script src="/public/lib.js"></script>
+<script src="/public/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+<!--<script type="text/javascript">_satellite.pageBottom();</script>-->
+</body>
+</html>

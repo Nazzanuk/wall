@@ -9,12 +9,12 @@
         var users = [];
 
         var getWallUsers = function () {
-            console.log(users);
+            //console.log(users);
             return users;
         };
 
         var setWall = function (wallName) {
-            console.log('setWall', wallName);
+            //console.log('setWall', wallName);
             wall = wallName;
             SendAPI.setWall(wallName);
         };

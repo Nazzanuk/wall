@@ -1,0 +1,79 @@
+[data-template="landing"] {
+  .landing {
+    min-height: 100vh;
+    background: white;
+    font-size: 18px;
+
+    p {
+      margin: 0 0 15px;
+    }
+    .landing-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: $dark-1;
+      height: 43px;
+      line-height: 40px;
+      font-size: 18px;
+      color: $primary;
+      border-top: $primary 3px solid;
+      font-weight: bold;
+      z-index: 1000;
+    }
+
+    .landing-banner {
+      background: $light-1;
+      height: 600px;
+      position: relative;
+
+      .banner-title {
+        font-size: 36px;
+//        margin-top: 150px;
+        margin: 150px 0 15px;
+      }
+
+      .banner-input {
+        border: none;
+        background: white;
+        padding: 0 15px;
+        line-height: 50px;
+        font-size: 18px;
+        margin: 0 0 10px;
+        width: 100%;
+        border-radius: 4px;
+        border:1px solid darken($light-1, 10%);
+      }
+
+      .banner-btn {
+        border: none;
+        background: $third;
+        color: $dark-1;
+        border:1px solid darken($third, 10%);
+        padding: 0 10px;
+        line-height: 50px;
+        font-size: 18px;
+        margin: 0 0 10px;
+        border-radius: 4px;
+        text-align:center;
+        transition: .3s;
+        cursor: pointer;
+
+        &:hover {
+          background:darken($third, 10%);
+        }
+      }
+
+      .banner-img {
+        margin-top: 100px;
+        img {
+          max-width: 100%;
+          height:auto;
+        }
+      }
+
+
+    }
+
+  }
+}

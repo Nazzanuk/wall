@@ -6,7 +6,7 @@
     left: 0px;
     right: 0px;
     bottom: 0px;
-    background: white;
+    background: $dark-2;
     overflow: hidden;
     //    border: 1px solid $light-2;
     display: none;
@@ -14,10 +14,10 @@
     .wall-canvas {
       cursor: grab;
       background: white;
-      height: 50000px;
-      width: 50000px;
-      left: -25000px;
-      top: -25000px;
+      height: 5000px;
+      width: 5000px;
+      left: -2500px;
+      top: -2500px;
 
       //      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAIElEQVQYV2NkIAK8e/fuPyMR6hhGFeINJXDwgAhiwhIAOZAl5ZptZ+8AAAAASUVORK5CYII=) repeat;
       //
@@ -28,13 +28,13 @@
       position: relative;
 
       .canvas-title {
-        bottom: 30px;
-        left: 90px;
+        top: 30px;
+        right: 90px;
         position: fixed;
         text-align: center;
         line-height: 1;
         color: rgba(0, 0, 0, 0.1);
-        font-size: 50px;
+        font-size: 30px;
         font-family: 'Kalam', cursive;
         font-weight: bold;
 //        user-select: none;

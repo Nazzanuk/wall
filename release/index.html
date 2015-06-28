@@ -34,14 +34,14 @@
 <div data-template="header" data-ng-controller="HeaderCtrl" ng-show="isSignedIn()">
     <div class="header">
         <div class="header-burger" data-toggle="tooltip" data-placement="right" title="Open Sidebar"><i class="fa fa-navicon"></i></div>
-        <div class="header-name" ng-show="isSignedIn()">
+        <div class="header-name hidden-xs" ng-show="isSignedIn()">
             Hi {{getName()}}!
         </div>
         <div class="header-image" ng-show="isSignedIn()" style="background-image:url('{{getImageUrl()}}')">
 
         </div>
         <!--Infinite WALL-->
-        WLL.space <strong style="color: #d9ff87">ALPHA</strong>
+        Stycki <strong style="color: #d9ff87">ALPHA</strong>
     </div>
 </div>
 
@@ -74,6 +74,16 @@
 
     </div>
 </div>
+<div data-template="mini-map"  data-ng-controller="MiniMapCtrl" >
+    <div class="mini-map">
+        <div ng-repeat="note in getNotes()" class="map-note {{note.type}} colour-{{note.colour}}" style="top:{{scalePosition(note.top)}}px;left:{{scalePosition(note.left)}}px"></div>
+        <div class="map-screen" style="height: {{screen.height}}px;width:{{screen.width}}px;top:{{screen.top}}px;left:{{screen.left}}px">
+
+        </div>
+    </div>
+</div>
+
+
 <div data-template="google-auth">
     <div class="google-auth">
         <div class="google-title">Sign in with your Google account</div>
@@ -85,11 +95,11 @@
 <div data-template="wall" data-ng-controller="WallCtrl">
     <div class="wall">
         <div class="wall-ui">
-            <div class="ui-btn" ng-click="addNote('note')" data-toggle="tooltip" data-placement="right" title="Add Note">
-                <i class="fa fa-square-o"></i>
+            <div class="ui-btn" ng-click="addNote('note')" data-toggle="tooltip" data-placement="right" title="Add Note (Ctrl + N)">
+                <i class="fa fa-plus"></i>
             </div>
-            <div class="ui-btn" ng-click="addNote('icon')" data-toggle="tooltip" data-placement="right" title="Add Icon">
-                <i class="fa fa-pencil"></i>
+            <div class="ui-btn" ng-click="addNote('icon')" data-toggle="tooltip" data-placement="right" title="Add Icon (Ctrl + I)">
+                <i class="fa fa-info"></i>
             </div>
         </div>
         <div class="wall-ui alt">
@@ -102,17 +112,17 @@
             <div class="ui-btn ui-users-btn" ng-show="getWall() != 'global'" ng-click="" data-toggle="tooltip" data-placement="right" title="Add / Remove Collaborators">
                 <i class="fa fa-users"></i>
             </div>
-            <div class="ui-btn" ng-click="" data-toggle="tooltip" data-placement="right" title="Settings">
+            <div class="ui-btn" ng-click="" data-toggle="tooltip" data-placement="right" title="Tell Your Friends">
+                <i class="fa fa-share-alt"></i>
+            </div>
+            <div class="ui-btn" ng-click="" data-toggle="tooltip" data-placement="right" title="Give Us Feedback!">
+                <i class="fa fa-comments"></i>
+            </div>
+            <div class="ui-btn disabled" ng-click="" data-toggle="tooltip" data-placement="right" title="Settings">
                 <i class="fa fa-cog"></i>
             </div>
         </div>
         <div class="wall-ui alt-2">
-            <div class="ui-btn" ng-click="" data-toggle="tooltip" data-placement="left" title="Tell Your Friends">
-                <i class="fa fa-share-alt"></i>
-            </div>
-            <div class="ui-btn" ng-click="" data-toggle="tooltip" data-placement="left" title="Give Us Feedback!">
-                <i class="fa fa-comments"></i>
-            </div>
         </div>
         <div class="wall-zoom" style="display: inline">
 

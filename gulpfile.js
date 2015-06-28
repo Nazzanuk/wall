@@ -75,12 +75,13 @@ gulp.task("copy-public", function(){
 
 gulp.task("gen-html", function(){
     var pages = {
-        index: ['head', 'header', 'sidebar', 'google-auth', 'wall', 'users-popup', 'footer']
+        index: ['head', 'header', 'sidebar', 'mini-map', 'google-auth', 'wall', 'users-popup', 'footer'],
+        landing: ['head', 'landing', 'footer']
     };
 
 
     for (var i in pages){
-        var sources = []
+        var sources = [];
         for (var j in pages [i]){
             var ejs = pages[i][j];
             sources.push("src/components/" + ejs + "/" + ejs + ".ejs");

@@ -1,10 +1,10 @@
 var app = angular.module('app', []);
 
-Storage.prototype.setObject = function(key, value) {
+Storage.prototype.setObject = function (key, value) {
     this.setItem(key, JSON.stringify(value));
 };
 
-Storage.prototype.getObject = function(key) {
+Storage.prototype.getObject = function (key) {
     var value = this.getItem(key);
     return value && JSON.parse(value);
 };
@@ -22,12 +22,19 @@ if (!Object.keys) {
     };
 }
 
-var socket = io('http://localhost:4000');
-//    var socket = io('https://nameless-beyond-9248.herokuapp.com');
-socket.on('connect', function(){
+var currentMousePos = {left: -1, top: -1};
+$(document).mousemove(function (event) {
+    currentMousePos.left = event.pageX;
+    currentMousePos.top = event.pageY;
+});
+
+//var socket = io('http://localhost:4000');
+var socket = io('https://nameless-beyond-9248.herokuapp.com');
+socket.on('connect', function () {
     console.log('connected!')
 });
-socket.on('disconnect', function(){});
+socket.on('disconnect', function () {
+});
 (function () {
     app.service('API', ['$rootScope', "$http", function ($rootScope, $http) {
         //var that = this;
@@ -187,6 +194,97 @@ socket.on('disconnect', function(){});
     }]);
 }());
 (function () {
+    app.service('Data', ['$rootScope', "API", "GoogleAuth", function ($rootScope, API, GoogleAuth) {
+        //var that = this;
+        //
+        //var user = "";
+        //var wall = "";
+        //var wallList = [];
+        //var settings = {};
+        //var notes = [];
+        //
+        //var setEmail = function (email) {
+        //    user = email;
+        //};
+        //
+        //var setWall = function (name) {
+        //    wall = name;
+        //    return loadNotes();
+        //};
+        //
+        //var getWall = function () {
+        //    return wall;
+        //};
+        //
+        //var getWallList = function () {
+        //    return wallList;
+        //};
+        //
+        //var getNotes = function () {
+        //    return notes;
+        //};
+        //
+        //var loadWallList = function () {
+        //    return API.loadWallList(user).then(function (response) {
+        //
+        //
+        //        //var z = _.clone(response.data);
+        //        //z.push({name:'global'});
+        //        ////console.log(z);
+        //        wallList = response.data;
+        //        //return z;
+        //        return wallList;
+        //    });
+        //};
+        //
+        //var loadNotes = function () {
+        //    return API.loadNotes(wall).then(function (response) {
+        //        //console.log(response.data);
+        //        notes = response.data;
+        //        //console.log(notes);
+        //    });
+        //};
+        //
+        //var updateNote = function (note) {
+        //    return API.updateNote(note).then(function () {
+        //        //return loadNotes();
+        //    });
+        //};
+        //
+        //var updateUser = function () {
+        //    return API.updateUser(GoogleAuth.getUser()).then(function () {
+        //        //return loadNotes();
+        //    });
+        //};
+        //
+        //var updateWall = function (wall) {
+        //    return API.updateWall(wall).then(function () {
+        //        //return loadNotes();
+        //    });
+        //};
+        //
+        //var newNote = function (note) {
+        //    return API.newNote(note).then(function () {
+        //        return loadNotes();
+        //    });
+        //};
+        //
+        //that.updateWall = updateWall;
+        //that.updateNote = updateNote;
+        //that.updateUser = updateUser;
+        //that.newNote = newNote;
+        //that.setEmail = setEmail;
+        //that.setWall = setWall;
+        //that.getWall = getWall;
+        //that.getWallList = getWallList;
+        //that.loadWallList = loadWallList;
+        //that.getNotes = getNotes;
+        //that.loadNotes = loadNotes;
+        //return that;
+
+    }]);
+}());
+(function () {
     app.service('Core', ['$rootScope', 'SendAPI', function ($rootScope, SendAPI) {
         var that = this;
 
@@ -197,12 +295,12 @@ socket.on('disconnect', function(){});
         var users = [];
 
         var getWallUsers = function () {
-            console.log(users);
+            //console.log(users);
             return users;
         };
 
         var setWall = function (wallName) {
-            console.log('setWall', wallName);
+            //console.log('setWall', wallName);
             wall = wallName;
             SendAPI.setWall(wallName);
         };
@@ -303,97 +401,6 @@ socket.on('disconnect', function(){});
     }]);
 }());
 (function () {
-    app.service('Data', ['$rootScope', "API", "GoogleAuth", function ($rootScope, API, GoogleAuth) {
-        //var that = this;
-        //
-        //var user = "";
-        //var wall = "";
-        //var wallList = [];
-        //var settings = {};
-        //var notes = [];
-        //
-        //var setEmail = function (email) {
-        //    user = email;
-        //};
-        //
-        //var setWall = function (name) {
-        //    wall = name;
-        //    return loadNotes();
-        //};
-        //
-        //var getWall = function () {
-        //    return wall;
-        //};
-        //
-        //var getWallList = function () {
-        //    return wallList;
-        //};
-        //
-        //var getNotes = function () {
-        //    return notes;
-        //};
-        //
-        //var loadWallList = function () {
-        //    return API.loadWallList(user).then(function (response) {
-        //
-        //
-        //        //var z = _.clone(response.data);
-        //        //z.push({name:'global'});
-        //        ////console.log(z);
-        //        wallList = response.data;
-        //        //return z;
-        //        return wallList;
-        //    });
-        //};
-        //
-        //var loadNotes = function () {
-        //    return API.loadNotes(wall).then(function (response) {
-        //        //console.log(response.data);
-        //        notes = response.data;
-        //        //console.log(notes);
-        //    });
-        //};
-        //
-        //var updateNote = function (note) {
-        //    return API.updateNote(note).then(function () {
-        //        //return loadNotes();
-        //    });
-        //};
-        //
-        //var updateUser = function () {
-        //    return API.updateUser(GoogleAuth.getUser()).then(function () {
-        //        //return loadNotes();
-        //    });
-        //};
-        //
-        //var updateWall = function (wall) {
-        //    return API.updateWall(wall).then(function () {
-        //        //return loadNotes();
-        //    });
-        //};
-        //
-        //var newNote = function (note) {
-        //    return API.newNote(note).then(function () {
-        //        return loadNotes();
-        //    });
-        //};
-        //
-        //that.updateWall = updateWall;
-        //that.updateNote = updateNote;
-        //that.updateUser = updateUser;
-        //that.newNote = newNote;
-        //that.setEmail = setEmail;
-        //that.setWall = setWall;
-        //that.getWall = getWall;
-        //that.getWallList = getWallList;
-        //that.loadWallList = loadWallList;
-        //that.getNotes = getNotes;
-        //that.loadNotes = loadNotes;
-        //return that;
-
-    }]);
-}());
-(function () {
     app.service('GoogleAuth', ['$rootScope', function ($rootScope) {
 
         window.GoogleAuth = this;
@@ -474,6 +481,54 @@ function onSignIn(user) {
         $scope.getName = GoogleAuth.getName;
         $scope.isSignedIn = GoogleAuth.isSignedIn;
         $scope.getImageUrl = GoogleAuth.getImageUrl;
+    }]);
+}());
+
+(function () {
+    app.controller('Core', ['$scope', function ($scope) {
+
+    }]);
+}());
+(function () {
+    app.controller('MiniMapCtrl', ['$scope', 'Core', function ($scope, Core) {
+
+        $scope.screen = {
+            width: 10,
+            height: 10
+        };
+
+        var scale = 40;
+
+        var setScreenHeight = function () {
+            $scope.screen.height = $(window).height() / scale;
+            $scope.screen.width = $(window).width() / scale;
+            $scope.screen.top = ($('.wall-canvas').position().top) / (scale * -1);
+            $scope.screen.left = ($('.wall-canvas').position().left) / (scale * -1);
+
+            //console.log($scope.screen);
+            $scope.$apply();
+
+        };
+
+        var scalePosition = function (number) {
+            return (number / scale);
+        };
+
+        var events = function () {
+            $(document).on('mousemove', function () {
+                //console.log('mousemoved');
+                setScreenHeight();
+            });
+        };
+
+        var init = function () {
+            events();
+        };
+
+        init();
+
+        $scope.getNotes = Core.getNotes;
+        $scope.scalePosition = scalePosition;
     }]);
 }());
 
@@ -659,14 +714,14 @@ function onSignIn(user) {
 
         var changeFontSize = function (index, amount) {
             var note = getNote(index);
-            note.fontSize = note.fontSize == undefined ? 12 :  note.fontSize;
+            note.fontSize = note.fontSize == undefined ? 16 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) + amount;
             updateNote(index);
         };
 
         var reduceFontSize = function (index, amount) {
             var note = getNote(index);
-            note.fontSize = note.fontSize == undefined ? 12 :  note.fontSize;
+            note.fontSize = note.fontSize == undefined ? 16 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) - amount;
             updateNote(index);
         };
@@ -716,17 +771,23 @@ function onSignIn(user) {
             Core.updateNote(getNote(index));
         };
 
-        var addNote = function (type) {
+        var addNote = function (type, modifier) {
+            if (modifier == undefined) {
+                modifier = {};
+                modifier.top = 75;
+                modifier.left = 95;
+            }
+
             var position = $('.wall-canvas').position();
 
             var note = {
                 wall: getWall(),
-                top: position.top * -1 + 35,
-                left: position.left * -1 + 95,
+                top: position.top * -1 + modifier.top - 40,
+                left: position.left * -1 + modifier.left,
                 colour: $scope.colour,
                 content: "",
                 angle: _.random(-3, 3),
-                fontSize:12,
+                fontSize:16,
                 icon: $scope.defaultIcon,
                 type: type
             };
@@ -764,9 +825,26 @@ function onSignIn(user) {
             });
         };
 
+        var shortcuts = function () {
+            $(document).on('keydown', function (e) {
+                if (e.ctrlKey) {
+                    switch (e.keyCode) {
+                        case 78:
+                            addNote('note', currentMousePos);
+                            break;
+                        case 73:
+                            addNote('icon', currentMousePos);
+                            break;
+                    }
+                }
+                console.log(e);
+            });
+        };
+
         var init = function () {
             $('[data-toggle="tooltip"]').tooltip();
             events();
+            shortcuts();
 
             $timeout(function () {
                 //$('.wall').velocity('transition.slideUpIn');

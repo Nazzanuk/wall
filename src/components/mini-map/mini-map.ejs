@@ -1,0 +1,9 @@
+<div data-template="mini-map"  data-ng-controller="MiniMapCtrl" >
+    <div class="mini-map">
+        <div ng-repeat="note in getNotes()" class="map-note {{note.type}} colour-{{note.colour}}" style="top:{{scalePosition(note.top)}}px;left:{{scalePosition(note.left)}}px"></div>
+        <div class="map-screen" style="height: {{screen.height}}px;width:{{screen.width}}px;top:{{screen.top}}px;left:{{screen.left}}px">
+
+        </div>
+    </div>
+</div>
+
