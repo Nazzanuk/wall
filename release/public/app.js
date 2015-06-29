@@ -28,8 +28,8 @@ $(document).mousemove(function (event) {
     currentMousePos.top = event.pageY;
 });
 
-//var socket = io('http://localhost:4000');
-var socket = io('https://nameless-beyond-9248.herokuapp.com');
+var socket = io('http://localhost:4000');
+//var socket = io('https://nameless-beyond-9248.herokuapp.com');
 socket.on('connect', function () {
     console.log('connected!')
 });
@@ -149,6 +149,11 @@ socket.on('disconnect', function () {
         };
 
         var updateNote = function (note) {
+            try {
+                delete note.$$hashKey;
+            } catch (e) {
+                console.log(e);
+            }
             socket.emit('update-note', note);
         };
 
@@ -191,97 +196,6 @@ socket.on('disconnect', function () {
         that.requestWallList = requestWallList;
 
         return that;
-    }]);
-}());
-(function () {
-    app.service('Data', ['$rootScope', "API", "GoogleAuth", function ($rootScope, API, GoogleAuth) {
-        //var that = this;
-        //
-        //var user = "";
-        //var wall = "";
-        //var wallList = [];
-        //var settings = {};
-        //var notes = [];
-        //
-        //var setEmail = function (email) {
-        //    user = email;
-        //};
-        //
-        //var setWall = function (name) {
-        //    wall = name;
-        //    return loadNotes();
-        //};
-        //
-        //var getWall = function () {
-        //    return wall;
-        //};
-        //
-        //var getWallList = function () {
-        //    return wallList;
-        //};
-        //
-        //var getNotes = function () {
-        //    return notes;
-        //};
-        //
-        //var loadWallList = function () {
-        //    return API.loadWallList(user).then(function (response) {
-        //
-        //
-        //        //var z = _.clone(response.data);
-        //        //z.push({name:'global'});
-        //        ////console.log(z);
-        //        wallList = response.data;
-        //        //return z;
-        //        return wallList;
-        //    });
-        //};
-        //
-        //var loadNotes = function () {
-        //    return API.loadNotes(wall).then(function (response) {
-        //        //console.log(response.data);
-        //        notes = response.data;
-        //        //console.log(notes);
-        //    });
-        //};
-        //
-        //var updateNote = function (note) {
-        //    return API.updateNote(note).then(function () {
-        //        //return loadNotes();
-        //    });
-        //};
-        //
-        //var updateUser = function () {
-        //    return API.updateUser(GoogleAuth.getUser()).then(function () {
-        //        //return loadNotes();
-        //    });
-        //};
-        //
-        //var updateWall = function (wall) {
-        //    return API.updateWall(wall).then(function () {
-        //        //return loadNotes();
-        //    });
-        //};
-        //
-        //var newNote = function (note) {
-        //    return API.newNote(note).then(function () {
-        //        return loadNotes();
-        //    });
-        //};
-        //
-        //that.updateWall = updateWall;
-        //that.updateNote = updateNote;
-        //that.updateUser = updateUser;
-        //that.newNote = newNote;
-        //that.setEmail = setEmail;
-        //that.setWall = setWall;
-        //that.getWall = getWall;
-        //that.getWallList = getWallList;
-        //that.loadWallList = loadWallList;
-        //that.getNotes = getNotes;
-        //that.loadNotes = loadNotes;
-        //return that;
-
     }]);
 }());
 (function () {
@@ -401,6 +315,97 @@ socket.on('disconnect', function () {
     }]);
 }());
 (function () {
+    app.service('Data', ['$rootScope', "API", "GoogleAuth", function ($rootScope, API, GoogleAuth) {
+        //var that = this;
+        //
+        //var user = "";
+        //var wall = "";
+        //var wallList = [];
+        //var settings = {};
+        //var notes = [];
+        //
+        //var setEmail = function (email) {
+        //    user = email;
+        //};
+        //
+        //var setWall = function (name) {
+        //    wall = name;
+        //    return loadNotes();
+        //};
+        //
+        //var getWall = function () {
+        //    return wall;
+        //};
+        //
+        //var getWallList = function () {
+        //    return wallList;
+        //};
+        //
+        //var getNotes = function () {
+        //    return notes;
+        //};
+        //
+        //var loadWallList = function () {
+        //    return API.loadWallList(user).then(function (response) {
+        //
+        //
+        //        //var z = _.clone(response.data);
+        //        //z.push({name:'global'});
+        //        ////console.log(z);
+        //        wallList = response.data;
+        //        //return z;
+        //        return wallList;
+        //    });
+        //};
+        //
+        //var loadNotes = function () {
+        //    return API.loadNotes(wall).then(function (response) {
+        //        //console.log(response.data);
+        //        notes = response.data;
+        //        //console.log(notes);
+        //    });
+        //};
+        //
+        //var updateNote = function (note) {
+        //    return API.updateNote(note).then(function () {
+        //        //return loadNotes();
+        //    });
+        //};
+        //
+        //var updateUser = function () {
+        //    return API.updateUser(GoogleAuth.getUser()).then(function () {
+        //        //return loadNotes();
+        //    });
+        //};
+        //
+        //var updateWall = function (wall) {
+        //    return API.updateWall(wall).then(function () {
+        //        //return loadNotes();
+        //    });
+        //};
+        //
+        //var newNote = function (note) {
+        //    return API.newNote(note).then(function () {
+        //        return loadNotes();
+        //    });
+        //};
+        //
+        //that.updateWall = updateWall;
+        //that.updateNote = updateNote;
+        //that.updateUser = updateUser;
+        //that.newNote = newNote;
+        //that.setEmail = setEmail;
+        //that.setWall = setWall;
+        //that.getWall = getWall;
+        //that.getWallList = getWallList;
+        //that.loadWallList = loadWallList;
+        //that.getNotes = getNotes;
+        //that.loadNotes = loadNotes;
+        //return that;
+
+    }]);
+}());
+(function () {
     app.service('GoogleAuth', ['$rootScope', function ($rootScope) {
 
         window.GoogleAuth = this;
@@ -485,11 +490,6 @@ function onSignIn(user) {
 }());
 
 (function () {
-    app.controller('Core', ['$scope', function ($scope) {
-
-    }]);
-}());
-(function () {
     app.controller('MiniMapCtrl', ['$scope', 'Core', function ($scope, Core) {
 
         $scope.screen = {
@@ -532,6 +532,11 @@ function onSignIn(user) {
     }]);
 }());
 
+(function () {
+    app.controller('Core', ['$scope', function ($scope) {
+
+    }]);
+}());
 (function () {
     app.controller('SidebarCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Core', function ($scope, $timeout, GoogleAuth, Core) {
 

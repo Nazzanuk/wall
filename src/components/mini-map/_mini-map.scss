@@ -6,21 +6,24 @@
     right: 15px;
     height: 125px;
     width: 125px;
-    background: #eee;
+    background: #fff;
     border: 1px solid $light-1;
     border: 1px solid $light-2;
+    overflow: hidden;
 
     .map-screen {
-      background: rgba(255,255,255,0.5);
+//      background: rgba(255,255,255,0.5);
+//      box-shadow: 0 0 100px 0 rgba(0,0,0,0.4);
+      box-shadow: 0 0 100px 100px rgba(0, 0, 0, 0.1);
       position: absolute;
 //      border: 1px solid $light-2;
-      border: 1px solid $light-2;
+//      border: 1px solid $light-2;
     }
 
     .map-note.note {
       position: absolute;
-      height: 10px;
-      width: 10px;
+      height: 5px;
+      width: 5px;
       background: #eee;
 
       &.colour-1 {

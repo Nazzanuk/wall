@@ -7,6 +7,11 @@
         };
 
         var updateNote = function (note) {
+            try {
+                delete note.$$hashKey;
+            } catch (e) {
+                console.log(e);
+            }
             socket.emit('update-note', note);
         };
 

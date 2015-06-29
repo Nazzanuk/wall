@@ -28,8 +28,8 @@ $(document).mousemove(function (event) {
     currentMousePos.top = event.pageY;
 });
 
-//var socket = io('http://localhost:4000');
-var socket = io('https://nameless-beyond-9248.herokuapp.com');
+var socket = io('http://localhost:4000');
+//var socket = io('https://nameless-beyond-9248.herokuapp.com');
 socket.on('connect', function () {
     console.log('connected!')
 });
