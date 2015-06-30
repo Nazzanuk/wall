@@ -1,5 +1,5 @@
 (function () {
-    app.service('Core', ['$rootScope', 'SendAPI', function ($rootScope, SendAPI) {
+    app.service('Core', ['$rootScope', 'SendAPI', 'AnalyticsService', function ($rootScope, SendAPI, AnalyticsService) {
         var that = this;
 
         var wall = "";
@@ -26,6 +26,10 @@
         var setEmail = function (emailName) {
             console.log('setEmail', emailName);
             email = emailName;
+        };
+
+        var sendFeedback = function (feedback) {
+            SendAPI.sendFeedback(feedback, getEmail());
         };
 
         var getEmail = function () {
@@ -74,6 +78,16 @@
             $rootScope.$apply();
         };
 
+        var receiveNote = function (data) {
+            if (data[0].wall = wall) {
+                var note = _.findWhere(notes, {_id :data[0]._id});
+                for (var i in data[0]) {
+                    note[i] = data[0][i];
+                }
+            }
+            $rootScope.$apply();
+        };
+
         var receiveWallList = function (data) {
             wallList = data;
             $rootScope.$apply();
@@ -92,6 +106,7 @@
             SendAPI.requestWallUsers(wall);
         };
 
+        that.sendFeedback = sendFeedback;
         that.requestWallList = requestWallList;
         that.receiveWallList = receiveWallList;
         that.addWallUser = addWallUser;
@@ -110,6 +125,7 @@
         that.getWallList = getWallList;
         that.getNotes = getNotes;
         that.receiveNotes = receiveNotes;
+        that.receiveNote = receiveNote;
 
         return that;
     }]);

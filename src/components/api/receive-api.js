@@ -11,6 +11,10 @@
                 notes(data);
             });
 
+            socket.on('note', function(data){
+                note(data);
+            });
+
             socket.on('test', function(data){
                 console.log('test', data)
             });
@@ -26,6 +30,10 @@
 
         var notes = function (data) {
             Core.receiveNotes(data);
+        };
+
+        var note = function (data) {
+            Core.receiveNote(data);
         };
 
         var wallList = function (data) {

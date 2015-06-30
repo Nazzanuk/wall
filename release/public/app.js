@@ -35,6 +35,41 @@ socket.on('connect', function () {
 });
 socket.on('disconnect', function () {
 });
+app.service('AnalyticsService', [function () {
+
+    var GAEvents = [
+        ['.add-note', 'UI Interaction', 'Add Note'],
+        ['.add-icon', 'UI Interaction', 'Add Icon'],
+        ['.ui-users-btn', 'UI Interaction', 'Add / Remove Collaborators'],
+        ['.share-btn', 'UI Interaction', 'Share WLL.space'],
+        ['.ui-feedback-btn', 'UI Interaction', 'Give Us Feedback!'],
+        ['.settings-btn', 'UI Interaction', 'Settings'],
+        ['.header-burger', 'Note Interaction', 'Open Sidebar'],
+        ['.note-change-theme', 'Note Interaction', 'Change Theme'],
+        ['.note-change-icon', 'Note Interaction', 'Change Icon'],
+        ['.note-rotate-icon', 'Note Interaction', 'Rotate Icon'],
+        ['.note-change-size', 'Note Interaction', 'Change Font Size'],
+        ['.note-close', 'Note Interaction', 'Remove Note']
+    ];
+
+    for (var i in GAEvents) {
+        setGAAnalyticsEvent(GAEvents[i]);
+    }
+
+    function setGAAnalyticsEvent(array) {
+        $(document).on('click', array[0], function () {
+            console.log(array);
+            //_trackEvent(array[1], array[2]);
+            //_gaq.push(['_trackEvent', array[1], array[2]]);
+            ga('send', 'event', array[1], array[2]);
+        });
+    }
+
+    console.log(GAEvents);
+}]);
+
+
+
 (function () {
     app.service('API', ['$rootScope', "$http", function ($rootScope, $http) {
         //var that = this;
@@ -102,6 +137,10 @@ socket.on('disconnect', function () {
                 notes(data);
             });
 
+            socket.on('note', function(data){
+                note(data);
+            });
+
             socket.on('test', function(data){
                 console.log('test', data)
             });
@@ -117,6 +156,10 @@ socket.on('disconnect', function () {
 
         var notes = function (data) {
             Core.receiveNotes(data);
+        };
+
+        var note = function (data) {
+            Core.receiveNote(data);
         };
 
         var wallList = function (data) {
@@ -185,6 +228,11 @@ socket.on('disconnect', function () {
             socket.emit('remove-note', note);
         };
 
+        var sendFeedback = function (feedback, email) {
+            socket.emit('send-feedback', {feedback: feedback, email: email});
+        };
+
+        that.sendFeedback = sendFeedback;
         that.requestWallUsers = requestWallUsers;
         that.addWallUser = addWallUser;
         that.removeNote = removeNote;
@@ -199,7 +247,7 @@ socket.on('disconnect', function () {
     }]);
 }());
 (function () {
-    app.service('Core', ['$rootScope', 'SendAPI', function ($rootScope, SendAPI) {
+    app.service('Core', ['$rootScope', 'SendAPI', 'AnalyticsService', function ($rootScope, SendAPI, AnalyticsService) {
         var that = this;
 
         var wall = "";
@@ -226,6 +274,10 @@ socket.on('disconnect', function () {
         var setEmail = function (emailName) {
             console.log('setEmail', emailName);
             email = emailName;
+        };
+
+        var sendFeedback = function (feedback) {
+            SendAPI.sendFeedback(feedback, getEmail());
         };
 
         var getEmail = function () {
@@ -274,6 +326,16 @@ socket.on('disconnect', function () {
             $rootScope.$apply();
         };
 
+        var receiveNote = function (data) {
+            if (data[0].wall = wall) {
+                var note = _.findWhere(notes, {_id :data[0]._id});
+                for (var i in data[0]) {
+                    note[i] = data[0][i];
+                }
+            }
+            $rootScope.$apply();
+        };
+
         var receiveWallList = function (data) {
             wallList = data;
             $rootScope.$apply();
@@ -292,6 +354,7 @@ socket.on('disconnect', function () {
             SendAPI.requestWallUsers(wall);
         };
 
+        that.sendFeedback = sendFeedback;
         that.requestWallList = requestWallList;
         that.receiveWallList = receiveWallList;
         that.addWallUser = addWallUser;
@@ -310,6 +373,7 @@ socket.on('disconnect', function () {
         that.getWallList = getWallList;
         that.getNotes = getNotes;
         that.receiveNotes = receiveNotes;
+        that.receiveNote = receiveNote;
 
         return that;
     }]);
@@ -406,6 +470,50 @@ socket.on('disconnect', function () {
     }]);
 }());
 (function () {
+    app.controller('FeedbackPopupCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Core', function ($scope, $timeout, GoogleAuth, Core) {
+
+        $scope.feedback = "";
+
+        var events = function () {
+
+            $(document).on('click','.ui-feedback-btn', function () {
+                openFeedbackPopup();
+            });
+
+            $(document).on('click','.close-feedback-popup', function () {
+                closeFeedbackPopup();
+            });
+        };
+
+        var openFeedbackPopup = function () {
+            $('.feedback-popup').velocity('stop').velocity('transition.flipYIn', {duration:300});
+        };
+
+        var closeFeedbackPopup = function () {
+            $('.feedback-popup').velocity('stop').velocity('transition.flipYOut', {duration:300});
+        };
+
+        var sendFeedback = function () {
+            Core.sendFeedback($scope.feedback);
+            closeFeedbackPopup();
+            ga('send', 'event', 'Feedback', 'Provided Feedback');
+        };
+
+        var init = function () {
+            events();
+
+            $timeout(function () {
+                $('.ui-feedback-btn').velocity('stop').velocity('callout.shake');
+            },10000);
+        };
+
+        init();
+
+        $scope.sendFeedback = sendFeedback;
+    }]);
+}());
+
+(function () {
     app.service('GoogleAuth', ['$rootScope', function ($rootScope) {
 
         window.GoogleAuth = this;
@@ -420,6 +528,8 @@ socket.on('disconnect', function () {
 
             // Useful data for your client-side scripts:
             profile = googleUser.getBasicProfile();
+            ga('send', 'event', 'User', profile.getEmail() + ' signed In');
+            ga('send', 'event', 'User', 'User Signed In');
             //console.log("ID: " + profile.getId()); // Don't send this directly to your server!
             //console.log("Name: " + profile.getName());
             //console.log("Image URL: " + profile.getImageUrl());
@@ -490,12 +600,23 @@ function onSignIn(user) {
 }());
 
 (function () {
-    app.controller('MiniMapCtrl', ['$scope', 'Core', function ($scope, Core) {
+    app.controller('Core', ['$scope', function ($scope) {
+
+    }]);
+}());
+(function () {
+    app.controller('MiniMapCtrl', ['$scope', 'Core', 'GoogleAuth', function ($scope, Core, GoogleAuth) {
 
         $scope.screen = {
             width: 10,
             height: 10
         };
+
+        $scope.$watch(function () { return GoogleAuth.isSignedIn()}, function (newVal) {
+            if (GoogleAuth.isSignedIn()) {
+                $('.mini-map').velocity('transition.fadeIn');
+            }
+        });
 
         var scale = 40;
 
@@ -529,14 +650,10 @@ function onSignIn(user) {
 
         $scope.getNotes = Core.getNotes;
         $scope.scalePosition = scalePosition;
+        $scope.isSignedIn = GoogleAuth.isSignedIn;
     }]);
 }());
 
-(function () {
-    app.controller('Core', ['$scope', function ($scope) {
-
-    }]);
-}());
 (function () {
     app.controller('SidebarCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Core', function ($scope, $timeout, GoogleAuth, Core) {
 
@@ -576,7 +693,9 @@ function onSignIn(user) {
 
         var setWall = function (wall) {
             $('.sidebar').velocity('stop').velocity('transition.slideLeftBigOut', {duration:300});
+            window.location.href = '#' + wall;
             Core.setWall(wall);
+            ga('send', 'event', 'Set Wall', '#' + wall);
         };
 
         var setMyWall = function () {
@@ -597,6 +716,7 @@ function onSignIn(user) {
             closeWallPopup();
             var wallName = $scope.addWallName.toLowerCase();
             Core.addWall({name:wallName, users:[GoogleAuth.getEmail()]});
+            ga('send', 'event', 'New Wall', 'New Wall');
         };
 
         init();
@@ -635,6 +755,7 @@ function onSignIn(user) {
 
         var addWallUser = function () {
             Core.addWallUser($scope.userEmail);
+            ga('send', 'event', 'Collaborator', 'Added Collaborator');
         };
 
         var init = function () {
@@ -680,6 +801,17 @@ function onSignIn(user) {
             'lock',
             'unlock'
         ];
+
+        //$scope.fix = function () {
+        //    for (var i in getNotes()) {
+        //        console.log(getNote(i).top)
+        //        if (getNote(i).top > 5000) {
+        //            getNote(i).top = getNote(i).top - 22500;
+        //            getNote(i).left = getNote(i).left - 22500;
+        //            updateNote(i);
+        //        }
+        //    }
+        //};
 
         var changeIcon = function (index) {
             getNote(index).icon = getNote(index).icon * 1 + 1;
@@ -769,11 +901,18 @@ function onSignIn(user) {
         var start = function () {
             Core.setEmail(GoogleAuth.getEmail());
             Core.updateUser();
-            Core.setWall('global');
+
+            var type = window.location.hash.substr(1);
+            type = type == "" ? "global" : type;
+            Core.setWall(type);
         };
 
         var updateNote = function (index) {
             Core.updateNote(getNote(index));
+        };
+
+        var changeNoteContent = function () {
+            ga('send', 'event', 'Note Interaction', 'Change Content');
         };
 
         var addNote = function (type, modifier) {
@@ -804,6 +943,7 @@ function onSignIn(user) {
             }
 
             Core.addNote(note);
+            ga('send', 'event', 'Note Interaction', 'Add Note');
         };
 
         var removeNote = function (index) {
@@ -826,6 +966,7 @@ function onSignIn(user) {
                     getNote(id).top = Math.round((ui.offset.top - $('.wall-canvas').offset().top) / 20) * 20;
                     getNote(id).left = Math.round((ui.offset.left - $('.wall-canvas').offset().left) / 20) * 20;
                     updateNote(id);
+                    ga('send', 'event', 'Note Interaction', 'Moved Note');
                 }
             });
         };
@@ -863,6 +1004,7 @@ function onSignIn(user) {
 
         init();
 
+        $scope.changeNoteContent = changeNoteContent;
         $scope.getNotes = getNotes;
         $scope.getWall = getWall;
         $scope.updateNote = updateNote;

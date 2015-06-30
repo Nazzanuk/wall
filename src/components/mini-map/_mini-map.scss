@@ -7,9 +7,11 @@
     height: 125px;
     width: 125px;
     background: #fff;
-    border: 1px solid $light-1;
-    border: 1px solid $light-2;
+//    border: 1px solid $light-1;
+//    border: 1px solid $light-2;
     overflow: hidden;
+    border-radius: 4px;
+    display: none;
 
     .map-screen {
 //      background: rgba(255,255,255,0.5);
@@ -20,30 +22,34 @@
 //      border: 1px solid $light-2;
     }
 
-    .map-note.note {
+    .map-note {
       position: absolute;
       height: 5px;
       width: 5px;
-      background: #eee;
+      background: darken(#eee, 10%);
+
+      &.icon {
+        display: none;
+      }
 
       &.colour-1 {
-        background: $primary;
+        background: darken($primary,10%);
       }
 
       &.colour-2 {
-        background: $secondary;
+        background: darken($secondary,10%);
       }
 
       &.colour-3 {
-        background: $third;
+        background: darken($third,10%);
       }
 
       &.colour-4 {
-        background: $fourth;
+        background: darken($fourth,10%);
       }
 
       &.colour-5 {
-        background: $fifth;
+        background: darken($fifth,10%);
       }
     }
   }

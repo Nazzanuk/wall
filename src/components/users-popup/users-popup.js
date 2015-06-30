@@ -25,6 +25,7 @@
 
         var addWallUser = function () {
             Core.addWallUser($scope.userEmail);
+            ga('send', 'event', 'Collaborator', 'Added Collaborator');
         };
 
         var init = function () {

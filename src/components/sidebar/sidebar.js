@@ -37,7 +37,9 @@
 
         var setWall = function (wall) {
             $('.sidebar').velocity('stop').velocity('transition.slideLeftBigOut', {duration:300});
+            window.location.href = '#' + wall;
             Core.setWall(wall);
+            ga('send', 'event', 'Set Wall', '#' + wall);
         };
 
         var setMyWall = function () {
@@ -58,6 +60,7 @@
             closeWallPopup();
             var wallName = $scope.addWallName.toLowerCase();
             Core.addWall({name:wallName, users:[GoogleAuth.getEmail()]});
+            ga('send', 'event', 'New Wall', 'New Wall');
         };
 
         init();

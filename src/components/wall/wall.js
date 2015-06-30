@@ -30,6 +30,17 @@
             'unlock'
         ];
 
+        //$scope.fix = function () {
+        //    for (var i in getNotes()) {
+        //        console.log(getNote(i).top)
+        //        if (getNote(i).top > 5000) {
+        //            getNote(i).top = getNote(i).top - 22500;
+        //            getNote(i).left = getNote(i).left - 22500;
+        //            updateNote(i);
+        //        }
+        //    }
+        //};
+
         var changeIcon = function (index) {
             getNote(index).icon = getNote(index).icon * 1 + 1;
             if (getNote(index).icon == $scope.icons.length) {
@@ -118,11 +129,18 @@
         var start = function () {
             Core.setEmail(GoogleAuth.getEmail());
             Core.updateUser();
-            Core.setWall('global');
+
+            var type = window.location.hash.substr(1);
+            type = type == "" ? "global" : type;
+            Core.setWall(type);
         };
 
         var updateNote = function (index) {
             Core.updateNote(getNote(index));
+        };
+
+        var changeNoteContent = function () {
+            ga('send', 'event', 'Note Interaction', 'Change Content');
         };
 
         var addNote = function (type, modifier) {
@@ -153,6 +171,7 @@
             }
 
             Core.addNote(note);
+            ga('send', 'event', 'Note Interaction', 'Add Note');
         };
 
         var removeNote = function (index) {
@@ -175,6 +194,7 @@
                     getNote(id).top = Math.round((ui.offset.top - $('.wall-canvas').offset().top) / 20) * 20;
                     getNote(id).left = Math.round((ui.offset.left - $('.wall-canvas').offset().left) / 20) * 20;
                     updateNote(id);
+                    ga('send', 'event', 'Note Interaction', 'Moved Note');
                 }
             });
         };
@@ -212,6 +232,7 @@
 
         init();
 
+        $scope.changeNoteContent = changeNoteContent;
         $scope.getNotes = getNotes;
         $scope.getWall = getWall;
         $scope.updateNote = updateNote;

@@ -5,32 +5,103 @@
     font-size: 18px;
 
     p {
-      margin: 0 0 15px;
+      margin: 0 0 30px;
     }
+
+
+    img {
+      max-width: 100%;
+      height:auto;
+    }
+
     .landing-header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       background: $dark-1;
-      height: 43px;
+      background: $light-1;
+//      height: 43px;
       line-height: 40px;
-      font-size: 18px;
-      color: $primary;
-      border-top: $primary 3px solid;
-      font-weight: bold;
+//      border-top: $third 3px solid;
       z-index: 1000;
+
+      .header-logo {
+        font-family: "Source Code Pro";
+        font-weight: 200;
+        letter-spacing: -2px;
+        font-size: 30px;
+        color: $third;
+
+        span {
+          letter-spacing: 0;
+          font-size: 10px;
+          color: $dark-1;
+          font-weight: 400;
+          font-weight: bold;
+        }
+      }
+
+
+      .header-btn {
+        $color : $third;
+
+        border: none;
+        background: $color;
+        color: $dark-1;
+        border:1px solid darken($color, 10%);
+        padding: 0 10px;
+        line-height: 30px;
+        font-size: 14px;
+        margin: 0 0 10px;
+        border-radius: 4px;
+        text-align:center;
+        transition: .3s;
+        cursor: pointer;
+        display: block;
+        text-decoration: none;
+        margin: 5px 0;
+        font-weight: bold;
+
+        &:hover {
+          background:darken($color, 10%);
+        }
+      }
     }
 
     .landing-banner {
+      padding: 150px 0;
       background: $light-1;
-      height: 600px;
+//      height: 600px;
       position: relative;
 
+      @media (max-width: 767px) {
+        text-align: center;
+        padding: 30px 0;
+      }
+
+      .banner-logo {
+        font-family: "Source Code Pro";
+        letter-spacing: -17px;
+        font-weight: 200;
+        font-size: 120px;
+        margin: 30px 0 15px;
+        color: $third;
+        line-height: 1;
+
+        span {
+          font-size: 12px;
+          letter-spacing: 0px;
+          margin-left: 13px;
+          color: $dark-1;
+        }
+      }
+
       .banner-title {
-        font-size: 36px;
+        font-size: 21px;
+        margin-bottom: 10px;
 //        margin-top: 150px;
-        margin: 150px 0 15px;
+//        margin: 150px 0 15px;
       }
 
       .banner-input {
@@ -46,10 +117,12 @@
       }
 
       .banner-btn {
+        $color : $third;
+
         border: none;
-        background: $third;
+        background: $color;
         color: $dark-1;
-        border:1px solid darken($third, 10%);
+        border:1px solid darken($color, 10%);
         padding: 0 10px;
         line-height: 50px;
         font-size: 18px;
@@ -58,14 +131,16 @@
         text-align:center;
         transition: .3s;
         cursor: pointer;
+        display: block;
+        text-decoration: none;
 
         &:hover {
-          background:darken($third, 10%);
+          background:darken($color, 10%);
         }
       }
 
       .banner-img {
-        margin-top: 100px;
+        margin-top:30px;
         img {
           max-width: 100%;
           height:auto;
@@ -73,6 +148,165 @@
       }
 
 
+    }
+
+    .landing-features {
+      padding: 100px 0;
+
+      @media (max-width: 767px) {
+        padding: 30px 0;
+      }
+    }
+
+    .note {
+      background: #eeeeee;
+      padding: 10px;
+      box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.2);
+      cursor: hand;
+      text-align: center;
+      margin-bottom: 30px;
+      //      display: none;
+
+      position: relative;
+//      top: 25px;
+//      left: 25px;
+//      cursor: grab;
+
+//      width: 140px;
+//      height: 120px;
+      padding: 30px;
+
+      font-family: 'Kalam', cursive;
+      transition: transform .1s, background .1s;
+
+      .note-slip {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.03);
+        height: 40px;
+        top: 0;
+        left: 0;
+        right: 0;
+      }
+
+      &.colour-1 {
+        background: $primary;
+      }
+
+      &.colour-2 {
+        background: $secondary;
+      }
+
+      &.colour-3 {
+        background: $third;
+      }
+
+      &.colour-4 {
+        background: $fourth;
+      }
+
+      &.colour-5 {
+        background: $fifth;
+      }
+
+      &.ui-draggable-dragging {
+        transform: scale(1.1) rotate(6deg) !important;
+        cursor: grabbing;
+      }
+
+      .note-close {
+        float: right;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: .2s;
+        line-height: 20px;
+        height: 20px;
+        width: 20px;
+        text-align: center;
+        margin-top: -10px;
+        margin-right: -10px;
+        font-size: 12px;
+      }
+
+      .note-theme {
+        @extend .note-close;
+        margin-left: -10px;
+        margin-right: 5px;
+        float: left;
+      }
+
+      .note-move {
+        float: left;
+      }
+
+      .note-header {
+        font-size: 16px;
+        cursor: text;
+        margin-top: 0px;
+        line-height: 25px;
+      }
+
+      .note-content {
+        padding: 30px;
+        font-weight: bold;
+        font-size: 18px;
+        cursor: text;
+        line-height: 1.8;
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+        margin-top: 30px;
+        display: block;
+//        width: 120px;
+        resize: none;
+        text-align: center;
+//        height: 85px;
+        overflow: hidden;
+
+        @media (max-width: 767px) {
+          font-size: 16px;
+        }
+      }
+
+      &:hover {
+        .note-close {
+          opacity: 1;
+        }
+      }
+
+      .note-change-icon, .note-rotate-icon, .note-icon {
+        display: none;
+      }
+
+      &.icon {
+        color: darken($primary,30%);
+        color: rgba(0, 0, 0, 0.3);
+        background: none;
+        box-shadow: none;
+        padding: 10px 10px 0;
+        height: initial;
+        width: initial;
+
+        .note-content {
+          height: initial;
+          width: initial;
+          line-height: 1;
+        }
+
+        .note-slip, .note-content, .note-theme, .note-change-size {
+          display: none;
+        }
+
+        .note-change-icon, .note-rotate-icon, .note-icon {
+          display: block;
+        }
+
+        .note-icon {
+          text-align: center;
+          font-size: 50px;
+        }
+      }
     }
 
   }

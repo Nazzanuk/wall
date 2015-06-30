@@ -47,8 +47,8 @@ io.on('connection', function(socket){
 
         updateNote({_id: ObjectID(id)}, note, function (docs) {
             console.log('updated?',docs.result);
-            getNotes({wall: room}, {}, function (docs) {
-                socket.broadcast.to(room).emit('notes', docs);
+            getNote({_id: ObjectID(id)}, {}, function (docs) {
+                socket.broadcast.to(room).emit('note', docs);
             });
         });
     });
@@ -62,6 +62,14 @@ io.on('connection', function(socket){
             getNotes({wall: room}, {}, function (docs) {
                 io.to(room).emit('notes', docs);
             });
+        });
+    });
+
+    socket.on('send-feedback', function(feedback){
+        console.log('send-feedback', feedback);
+
+        insertFeedback(feedback, function (docs) {
+            console.log(docs.result);
         });
     });
 
@@ -167,6 +175,15 @@ var getNotes = function (data, fields, callback) {
     });
 };
 
+var getNote = function (data, fields, callback) {
+    var collection = db.collection('notes');
+
+    collection.find(data, fields).toArray(function (err, docs) {
+        assert.equal(err, null);
+        callback(docs);
+    });
+};
+
 var updateNote = function (data, fields, callback) {
     var collection = db.collection('notes');
 
@@ -196,6 +213,15 @@ var updateUser = function (data, fields, callback) {
 
 var insertNote = function (fields, callback) {
     var collection = db.collection('notes');
+
+    collection.insert(fields, function (err, docs) {
+        assert.equal(err, null);
+        callback(docs);
+    });
+};
+
+var insertFeedback = function (fields, callback) {
+    var collection = db.collection('feedback');
 
     collection.insert(fields, function (err, docs) {
         assert.equal(err, null);

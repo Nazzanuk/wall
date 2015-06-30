@@ -43,6 +43,11 @@
             socket.emit('remove-note', note);
         };
 
+        var sendFeedback = function (feedback, email) {
+            socket.emit('send-feedback', {feedback: feedback, email: email});
+        };
+
+        that.sendFeedback = sendFeedback;
         that.requestWallUsers = requestWallUsers;
         that.addWallUser = addWallUser;
         that.removeNote = removeNote;

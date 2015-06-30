@@ -13,6 +13,8 @@
 
             // Useful data for your client-side scripts:
             profile = googleUser.getBasicProfile();
+            ga('send', 'event', 'User', profile.getEmail() + ' signed In');
+            ga('send', 'event', 'User', 'User Signed In');
             //console.log("ID: " + profile.getId()); // Don't send this directly to your server!
             //console.log("Name: " + profile.getName());
             //console.log("Image URL: " + profile.getImageUrl());
