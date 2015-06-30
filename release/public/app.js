@@ -28,8 +28,8 @@ $(document).mousemove(function (event) {
     currentMousePos.top = event.pageY;
 });
 
-var socket = io('http://localhost:4000');
-//var socket = io('https://nameless-beyond-9248.herokuapp.com');
+//var socket = io('http://localhost:4000');
+var socket = io('https://nameless-beyond-9248.herokuapp.com');
 socket.on('connect', function () {
     console.log('connected!')
 });
@@ -329,8 +329,12 @@ app.service('AnalyticsService', [function () {
         var receiveNote = function (data) {
             if (data[0].wall = wall) {
                 var note = _.findWhere(notes, {_id :data[0]._id});
-                for (var i in data[0]) {
-                    note[i] = data[0][i];
+                if (note == undefined) {
+                    notes.push(note);
+                } else {
+                    for (var i in data[0]) {
+                        note[i] = data[0][i];
+                    }
                 }
             }
             $rootScope.$apply();
@@ -600,11 +604,6 @@ function onSignIn(user) {
 }());
 
 (function () {
-    app.controller('Core', ['$scope', function ($scope) {
-
-    }]);
-}());
-(function () {
     app.controller('MiniMapCtrl', ['$scope', 'Core', 'GoogleAuth', function ($scope, Core, GoogleAuth) {
 
         $scope.screen = {
@@ -654,6 +653,11 @@ function onSignIn(user) {
     }]);
 }());
 
+(function () {
+    app.controller('Core', ['$scope', function ($scope) {
+
+    }]);
+}());
 (function () {
     app.controller('SidebarCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Core', function ($scope, $timeout, GoogleAuth, Core) {
 

@@ -81,8 +81,12 @@
         var receiveNote = function (data) {
             if (data[0].wall = wall) {
                 var note = _.findWhere(notes, {_id :data[0]._id});
-                for (var i in data[0]) {
-                    note[i] = data[0][i];
+                if (note == undefined) {
+                    notes.push(note);
+                } else {
+                    for (var i in data[0]) {
+                        note[i] = data[0][i];
+                    }
                 }
             }
             $rootScope.$apply();
