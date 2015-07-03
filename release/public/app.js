@@ -39,6 +39,7 @@ app.service('AnalyticsService', [function () {
 
     var GAEvents = [
         ['.add-note', 'UI Interaction', 'Add Note'],
+        ['.header-new-wall', 'UI Interaction', 'New Wall (Header)'],
         ['.add-icon', 'UI Interaction', 'Add Icon'],
         ['.ui-users-btn', 'UI Interaction', 'Add / Remove Collaborators'],
         ['.share-btn', 'UI Interaction', 'Share WLL.space'],
@@ -285,6 +286,13 @@ app.service('AnalyticsService', [function () {
         };
 
         var getWall = function () {
+            if (wall == getEmail()) {
+                return "my-wall";
+            }
+            return wall;
+        };
+
+        var getRealWall = function () {
             return wall;
         };
 
@@ -374,6 +382,7 @@ app.service('AnalyticsService', [function () {
         that.requestWallUsers = requestWallUsers;
         that.receiveWallUsers = receiveWallUsers;
         that.getWall = getWall;
+        that.getRealWall = getRealWall;
         that.getWallList = getWallList;
         that.getNotes = getNotes;
         that.receiveNotes = receiveNotes;
@@ -473,6 +482,51 @@ app.service('AnalyticsService', [function () {
 
     }]);
 }());
+(function () {
+    app.service('Email', ['Core', 'GoogleAuth', '$http', function (Core, GoogleAuth, $http) {
+        var that = this;
+
+        var baseEmail = {
+            "key": "aFC8zfGEpNgr0iUd5sRF1Q",
+            "message": {
+                "html": "<p>Example HTML content</p>",
+                "subject": "example subject",
+                "from_email": "info@wll.space",
+                "from_name": "WLL.space",
+                "to": [
+                    {
+                        "email": "nazzanuk@gmail.com"
+                    }
+                ]
+            }
+        };
+
+        var sendCollaborationInvite = function (email) {
+            var obj = _.clone(baseEmail);
+
+            obj.message.html = '<style>a{color:#51c7f1;font-weight:bold;}</style>' +
+            '<a href="http://wll.space"><img style="width:300px;height:auto;" src="https://gallery.mailchimp.com/cef6196e11327b192c5c4baac/images/787a7310-446e-4f7e-8b8d-e49a0600f5c5.png" alt="WLL.space"/></a><br/><br/>' +
+            '<h2>You have been invited to collaborate on WLL.space!</h2>' +
+            '<p>' + GoogleAuth.getName() + ' has invited you to start collaborating on ' +
+            '<a href="http://app.wll.space/#' + Core.getWall() + '">#' + Core.getWall() + '</a></p>' +
+            '<p><a href="http://app.wll.space/#' + Core.getWall() + '">Start collaborating on #' + Core.getWall() + ' now!</a></p>';
+
+            obj.message.subject = "You have received an invitation to WLL.space";
+            obj.message.to = [{"email": email}];
+
+            $http.post('https://mandrillapp.com/api/1.0/messages/send.json', obj)
+                .success(function (data, status, headers, config) {
+                    console.log('email sent', data);
+                }).error(function (data, status, headers, config) {
+                    console.log('email not sent', data);
+                });
+        };
+
+        that.sendCollaborationInvite = sendCollaborationInvite;
+
+    }]);
+}());
+
 (function () {
     app.controller('FeedbackPopupCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Core', function ($scope, $timeout, GoogleAuth, Core) {
 
@@ -596,13 +650,19 @@ function onSignIn(user) {
 }
 
 (function () {
-    app.controller('HeaderCtrl', ['$scope', 'GoogleAuth', 'Data', function ($scope, GoogleAuth, Data) {
+    app.controller('HeaderCtrl', ['$scope', 'GoogleAuth', 'Core', function ($scope, GoogleAuth, Core) {
         $scope.getName = GoogleAuth.getName;
+        $scope.getWall = Core.getWall;
         $scope.isSignedIn = GoogleAuth.isSignedIn;
         $scope.getImageUrl = GoogleAuth.getImageUrl;
     }]);
 }());
 
+(function () {
+    app.controller('Core', ['$scope', function ($scope) {
+
+    }]);
+}());
 (function () {
     app.controller('MiniMapCtrl', ['$scope', 'Core', 'GoogleAuth', function ($scope, Core, GoogleAuth) {
 
@@ -654,11 +714,6 @@ function onSignIn(user) {
 }());
 
 (function () {
-    app.controller('Core', ['$scope', function ($scope) {
-
-    }]);
-}());
-(function () {
     app.controller('SidebarCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Core', function ($scope, $timeout, GoogleAuth, Core) {
 
         $scope.addWallName = "";
@@ -673,7 +728,7 @@ function onSignIn(user) {
                 hideSidebar();
             });
 
-            $(document).on('click','.add-wall', function () {
+            $(document).on('click','.add-wall, .header-new-wall', function () {
                 $('.add-wall-popup').velocity('stop').velocity('transition.flipYIn', {duration:300});
                 hideSidebar();
             });
@@ -733,32 +788,34 @@ function onSignIn(user) {
 }());
 
 (function () {
-    app.controller('UsersPopupCtrl', ['$scope', '$timeout', 'GoogleAuth', 'Core', function ($scope, $timeout, GoogleAuth, Core) {
+    app.controller('UsersPopupCtrl', ['$scope', 'Email', '$timeout', 'GoogleAuth', 'Core', function ($scope, Email, $timeout, GoogleAuth, Core) {
 
-        $scope.userEmail = "example@gmail.com";
+        $scope.userEmail = "";
 
         var events = function () {
 
-            $(document).on('click','.ui-users-btn', function () {
+            $(document).on('click', '.ui-users-btn', function () {
                 openUsersPopup();
             });
 
-            $(document).on('click','.close-users-popup', function () {
+            $(document).on('click', '.close-users-popup', function () {
                 closeUsersPopup();
             });
         };
 
         var openUsersPopup = function () {
-            $('.users-popup').velocity('stop').velocity('transition.flipYIn', {duration:300});
+            $('.users-popup').velocity('stop').velocity('transition.flipYIn', {duration: 300});
             Core.requestWallUsers();
         };
 
         var closeUsersPopup = function () {
-            $('.users-popup').velocity('stop').velocity('transition.flipYOut', {duration:300});
+            $('.users-popup').velocity('stop').velocity('transition.flipYOut', {duration: 300});
         };
 
         var addWallUser = function () {
             Core.addWallUser($scope.userEmail);
+            Email.sendCollaborationInvite($scope.userEmail);
+            closeUsersPopup();
             ga('send', 'event', 'Collaborator', 'Added Collaborator');
         };
 
@@ -779,9 +836,11 @@ function onSignIn(user) {
 
         $scope.notes = [];
         $scope.scale = 1;
-        $scope.colour = 1;
+        //$scope.colour = 1;
         $scope.GoogleAuth = GoogleAuth;
         $scope.defaultIcon = 0;
+        $scope.defaultTheme = 1;
+        $scope.defaultFontSize = 16;
         $scope.icons = [
             'long-arrow-right',
             'arrows-h',
@@ -858,6 +917,7 @@ function onSignIn(user) {
             note.fontSize = note.fontSize == undefined ? 16 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) + amount;
             updateNote(index);
+            $scope.defaultFontSize = note.fontSize;
         };
 
         var reduceFontSize = function (index, amount) {
@@ -865,6 +925,7 @@ function onSignIn(user) {
             note.fontSize = note.fontSize == undefined ? 16 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) - amount;
             updateNote(index);
+            $scope.defaultFontSize = note.fontSize;
         };
 
         var changeColour = function (index) {
@@ -872,6 +933,7 @@ function onSignIn(user) {
             if (getNote(index).colour > 5) {
                 getNote(index).colour = 0;
             }
+            $scope.defaultTheme = getNote(index).colour;
             updateNote(index);
         };
 
@@ -882,7 +944,8 @@ function onSignIn(user) {
                 //console.log(isSignedIn);
                 if (isSignedIn) {
                     //console.log(GoogleAuth.getName());
-                    $('.wall').velocity('transition.slideUpIn');
+                    $('[data-template="header"] .header').velocity('transition.slideDownIn');
+                    $('[data-template="wall"] .wall').velocity('transition.slideUpIn');
                     $('.g-signin2').velocity('transition.fadeOut');
                     start();
                 }
@@ -929,13 +992,13 @@ function onSignIn(user) {
             var position = $('.wall-canvas').position();
 
             var note = {
-                wall: getWall(),
-                top: position.top * -1 + modifier.top - 40,
-                left: position.left * -1 + modifier.left,
-                colour: $scope.colour,
+                wall: Core.getRealWall(),
+                top: position.top * -1 + modifier.top + 10,
+                left: position.left * -1 + modifier.left + 50,
+                colour: $scope.defaultTheme,
                 content: "",
                 angle: _.random(-3, 3),
-                fontSize:16,
+                fontSize:$scope.defaultFontSize,
                 icon: $scope.defaultIcon,
                 type: type
             };
@@ -943,7 +1006,7 @@ function onSignIn(user) {
             if (type == "icon") {
                 note.fontSize = 50;
                 note.iconAngle = 0;
-                note.angle = 0;
+                //note.angle = 0;
             }
 
             Core.addNote(note);

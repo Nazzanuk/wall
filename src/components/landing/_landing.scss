@@ -44,11 +44,12 @@
 
 
       .header-btn {
-        $color : $third;
+        $color : $fifth;
 
         border: none;
         background: $color;
-        color: $dark-1;
+//        color: white;
+        color:$dark-1;
         border:1px solid darken($color, 10%);
         padding: 0 10px;
         line-height: 30px;
@@ -70,9 +71,9 @@
     }
 
     .landing-banner {
-      padding: 150px 0;
+      padding: 0px 0;
       background: $light-1;
-//      height: 600px;
+      height: 500px;
       position: relative;
 
       @media (max-width: 767px) {
@@ -100,8 +101,6 @@
       .banner-title {
         font-size: 21px;
         margin-bottom: 10px;
-//        margin-top: 150px;
-//        margin: 150px 0 15px;
       }
 
       .banner-input {
@@ -117,11 +116,12 @@
       }
 
       .banner-btn {
-        $color : $third;
+        $color : $fifth;
 
         border: none;
         background: $color;
         color: $dark-1;
+        font-weight: bold;
         border:1px solid darken($color, 10%);
         padding: 0 10px;
         line-height: 50px;
@@ -165,15 +165,8 @@
       cursor: hand;
       text-align: center;
       margin-bottom: 30px;
-      //      display: none;
 
       position: relative;
-//      top: 25px;
-//      left: 25px;
-//      cursor: grab;
-
-//      width: 140px;
-//      height: 120px;
       padding: 30px;
 
       font-family: 'Kalam', cursive;
@@ -249,12 +242,12 @@
       .note-content {
         padding: 30px;
         font-weight: bold;
-        font-size: 18px;
+        font-size: 20px;
         cursor: text;
-        line-height: 1.8;
+        line-height: 2;
         background: transparent;
         border: none;
-        padding: 0;
+        padding: 30px 0;
         margin: 0;
         margin-top: 30px;
         display: block;

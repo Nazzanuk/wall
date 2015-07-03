@@ -3,9 +3,11 @@
 
         $scope.notes = [];
         $scope.scale = 1;
-        $scope.colour = 1;
+        //$scope.colour = 1;
         $scope.GoogleAuth = GoogleAuth;
         $scope.defaultIcon = 0;
+        $scope.defaultTheme = 1;
+        $scope.defaultFontSize = 16;
         $scope.icons = [
             'long-arrow-right',
             'arrows-h',
@@ -82,6 +84,7 @@
             note.fontSize = note.fontSize == undefined ? 16 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) + amount;
             updateNote(index);
+            $scope.defaultFontSize = note.fontSize;
         };
 
         var reduceFontSize = function (index, amount) {
@@ -89,6 +92,7 @@
             note.fontSize = note.fontSize == undefined ? 16 :  note.fontSize;
             note.fontSize = parseInt(note.fontSize) - amount;
             updateNote(index);
+            $scope.defaultFontSize = note.fontSize;
         };
 
         var changeColour = function (index) {
@@ -96,6 +100,7 @@
             if (getNote(index).colour > 5) {
                 getNote(index).colour = 0;
             }
+            $scope.defaultTheme = getNote(index).colour;
             updateNote(index);
         };
 
@@ -106,7 +111,8 @@
                 //console.log(isSignedIn);
                 if (isSignedIn) {
                     //console.log(GoogleAuth.getName());
-                    $('.wall').velocity('transition.slideUpIn');
+                    $('[data-template="header"] .header').velocity('transition.slideDownIn');
+                    $('[data-template="wall"] .wall').velocity('transition.slideUpIn');
                     $('.g-signin2').velocity('transition.fadeOut');
                     start();
                 }
@@ -153,13 +159,13 @@
             var position = $('.wall-canvas').position();
 
             var note = {
-                wall: getWall(),
-                top: position.top * -1 + modifier.top - 40,
-                left: position.left * -1 + modifier.left,
-                colour: $scope.colour,
+                wall: Core.getRealWall(),
+                top: position.top * -1 + modifier.top + 10,
+                left: position.left * -1 + modifier.left + 50,
+                colour: $scope.defaultTheme,
                 content: "",
                 angle: _.random(-3, 3),
-                fontSize:16,
+                fontSize:$scope.defaultFontSize,
                 icon: $scope.defaultIcon,
                 type: type
             };
@@ -167,7 +173,7 @@
             if (type == "icon") {
                 note.fontSize = 50;
                 note.iconAngle = 0;
-                note.angle = 0;
+                //note.angle = 0;
             }
 
             Core.addNote(note);

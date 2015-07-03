@@ -79,11 +79,14 @@
 
         .ui-btn {
           background: $dark-1;
+          background:darken($third, 0%);
 //          border: 1px solid darken($primary, 20%);
 //          color: $secondary;
+          color: $dark-1;
 
           &:active {
             background: lighten($dark-1, 20%);
+            background:darken($third, 10%);
           }
         }
       }

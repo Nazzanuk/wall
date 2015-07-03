@@ -37,6 +37,13 @@
         };
 
         var getWall = function () {
+            if (wall == getEmail()) {
+                return "my-wall";
+            }
+            return wall;
+        };
+
+        var getRealWall = function () {
             return wall;
         };
 
@@ -126,6 +133,7 @@
         that.requestWallUsers = requestWallUsers;
         that.receiveWallUsers = receiveWallUsers;
         that.getWall = getWall;
+        that.getRealWall = getRealWall;
         that.getWallList = getWallList;
         that.getNotes = getNotes;
         that.receiveNotes = receiveNotes;

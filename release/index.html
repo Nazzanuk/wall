@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <title>WLLspace </title>
+    <title>WLL.space | Simple and Beautiful Digital Walls.</title>
 
     <meta name="description" content="Organise and collaborate on projects, ideas and everything else."/>
     <meta name="google-site-verification" content="pBKCJt-19i0-qQCVbi5EEKn3bQ_c_i5ofFwMzGs3Q-o" />
@@ -34,7 +34,8 @@
 </script>
 <div data-template="header" data-ng-controller="HeaderCtrl" ng-show="isSignedIn()">
     <div class="header">
-        <div class="header-burger" data-toggle="tooltip" data-placement="right" title="Open Sidebar"><i class="fa fa-navicon"></i></div>
+        <div class="header-burger" data-toggle="tooltip" data-placement="bottom" title="Your Walls">#{{getWall()}} &nbsp; <i class="fa fa-angle-right"></i></div>
+        <div class="header-new-wall" data-toggle="tooltip" data-placement="bottom" title="Add New Wall"><i class="fa fa-plus"></i> &nbsp; New Wall</div>
         <div class="header-name hidden-xs" ng-show="isSignedIn()">
             Hi {{getName()}}!
         </div>
@@ -42,7 +43,7 @@
 
         </div>
         <!--Infinite WALL-->
-        <!--Stycki--> WLL.space <strong style="color: #d9ff87">ALPHA</strong>
+        <!--Stycki--> WLL.space <strong>ALPHA</strong>
     </div>
 </div>
 
@@ -113,10 +114,10 @@
             <!--<div class="ui-btn" ng-click="reduceScale(0.1)" data-toggle="tooltip" data-placement="right" title="Zoom Out">-->
                 <!--<i class="fa fa-minus"></i>-->
             <!--</div>-->
-            <div class="ui-btn header-burger"  data-toggle="tooltip" data-placement="right" title="Your Walls">
+            <div class="ui-btn header-burger hide"  data-toggle="tooltip" data-placement="right" title="Your Walls">
                 <i class="fa fa-bars"></i>
             </div>
-            <div class="ui-btn ui-users-btn" ng-show="getWall() != 'global'" ng-click="" data-toggle="tooltip" data-placement="right" title="Add / Remove Collaborators">
+            <div class="ui-btn ui-users-btn" ng-show="getWall() != 'global' && getWall() != 'my-wall' " ng-click="" data-toggle="tooltip" data-placement="right" title="Add / Remove Collaborators">
                 <i class="fa fa-users"></i>
             </div>
             <div class="ui-btn share-btn hide" ng-click="" data-toggle="tooltip" data-placement="right" title="Share WLL.space">
@@ -177,7 +178,7 @@
             <div class="popup-header">Change Collaborators <i class="fa fa-times pull-right close-users-popup"></i></div>
             <div class="popup-content">
                 <div class="popup-title">Current Collaborators</div>
-                <div ng-repeat="user in getWallUsers()" class="popup-line"><i class="fa fa-times"></i> &nbsp; {{user}}</div>
+                <div ng-repeat="user in getWallUsers() track by $index" class="popup-line"><i class="fa fa-times"></i> &nbsp; {{user}}</div>
                 <hr/>
                 <div class="popup-title">User Email (Must have a Google account!)</div>
                 <input class="popup-input" ng-model="userEmail" placeholder="example@gmail.com"/>
@@ -193,8 +194,10 @@
         <div class="popup feedback-popup">
             <div class="popup-header">Give Us Feedback <i class="fa fa-times pull-right close-feedback-popup"></i></div>
             <div class="popup-content">
-                <div class="popup-title">What do you think about WLL.space?</div>
-                <textarea class="popup-input" ng-model="feedback" placeholder="I love it!"></textarea>
+                <div class="popup-title">Tell it like it is, what do you think about WLL.space?</div>
+                <textarea class="popup-input" ng-model="feedback" placeholder=""></textarea>
+                Thank you for your honesty!
+                <hr/>
                 <div class="popup-btn" ng-click="sendFeedback()">Send Feedback &nbsp; <i class="fa fa-check"></i></div>
                 <div class="popup-btn colour-2 pull-right close-feedback-popup">Close &nbsp; <i class="fa fa-times"></i></div>
             </div>

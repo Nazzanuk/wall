@@ -2,6 +2,7 @@ app.service('AnalyticsService', [function () {
 
     var GAEvents = [
         ['.add-note', 'UI Interaction', 'Add Note'],
+        ['.header-new-wall', 'UI Interaction', 'New Wall (Header)'],
         ['.add-icon', 'UI Interaction', 'Add Icon'],
         ['.ui-users-btn', 'UI Interaction', 'Add / Remove Collaborators'],
         ['.share-btn', 'UI Interaction', 'Share WLL.space'],

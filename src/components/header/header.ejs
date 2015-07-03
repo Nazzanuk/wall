@@ -1,6 +1,7 @@
 <div data-template="header" data-ng-controller="HeaderCtrl" ng-show="isSignedIn()">
     <div class="header">
-        <div class="header-burger" data-toggle="tooltip" data-placement="right" title="Open Sidebar"><i class="fa fa-navicon"></i></div>
+        <div class="header-burger" data-toggle="tooltip" data-placement="bottom" title="Your Walls">#{{getWall()}} &nbsp; <i class="fa fa-angle-right"></i></div>
+        <div class="header-new-wall" data-toggle="tooltip" data-placement="bottom" title="Add New Wall"><i class="fa fa-plus"></i> &nbsp; New Wall</div>
         <div class="header-name hidden-xs" ng-show="isSignedIn()">
             Hi {{getName()}}!
         </div>
@@ -8,6 +9,6 @@
 
         </div>
         <!--Infinite WALL-->
-        <!--Stycki--> WLL.space <strong style="color: #d9ff87">ALPHA</strong>
+        <!--Stycki--> WLL.space <strong>ALPHA</strong>
     </div>
 </div>

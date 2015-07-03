@@ -10,17 +10,49 @@
     z-index: 1000;
     width: 100vw;
     text-align: center;
+    display: none;
 
     .header-burger {
       top: 0;
       position: absolute;
       height: 40px;
-      width: 40px;
+      line-height: 40px;
+      //      width: 40px;
       text-align: center;
       color: white;
-      left:0;
-      cursor:pointer;
-      font-size: 18px;
+      left: 0;
+      cursor: pointer;
+      //      font-size: 18px;
+      padding: 0 15px;
+      color: $primary;
+      color: $third;
+      font-weight: bold;
+      display: block;
+    }
+
+    .header-new-wall {
+      top: 0;
+      position: absolute;
+      height: 40px;
+      line-height: 40px;
+      //      width: 40px;
+      text-align: center;
+      left: 150px;
+      cursor: pointer;
+      padding: 0 15px;
+      background: $third;
+      color: $dark-1;
+      font-weight: bold;
+      display: block;
+
+      &:hover {
+        background: darken($third, 10%);
+      }
+    }
+
+    strong {
+      color: $primary;
+      color: $third;
     }
 
     .header-name {
@@ -31,7 +63,7 @@
     }
 
     .header-image {
-      background:white;
+      background: white;
       border: 3px solid $dark-1;
       height: 75px;
       width: 75px;

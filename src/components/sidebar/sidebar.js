@@ -13,7 +13,7 @@
                 hideSidebar();
             });
 
-            $(document).on('click','.add-wall', function () {
+            $(document).on('click','.add-wall, .header-new-wall', function () {
                 $('.add-wall-popup').velocity('stop').velocity('transition.flipYIn', {duration:300});
                 hideSidebar();
             });

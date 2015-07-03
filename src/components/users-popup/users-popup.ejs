@@ -4,7 +4,7 @@
             <div class="popup-header">Change Collaborators <i class="fa fa-times pull-right close-users-popup"></i></div>
             <div class="popup-content">
                 <div class="popup-title">Current Collaborators</div>
-                <div ng-repeat="user in getWallUsers()" class="popup-line"><i class="fa fa-times"></i> &nbsp; {{user}}</div>
+                <div ng-repeat="user in getWallUsers() track by $index" class="popup-line"><i class="fa fa-times"></i> &nbsp; {{user}}</div>
                 <hr/>
                 <div class="popup-title">User Email (Must have a Google account!)</div>
                 <input class="popup-input" ng-model="userEmail" placeholder="example@gmail.com"/>

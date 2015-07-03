@@ -18,10 +18,10 @@
             <!--<div class="ui-btn" ng-click="reduceScale(0.1)" data-toggle="tooltip" data-placement="right" title="Zoom Out">-->
                 <!--<i class="fa fa-minus"></i>-->
             <!--</div>-->
-            <div class="ui-btn header-burger"  data-toggle="tooltip" data-placement="right" title="Your Walls">
+            <div class="ui-btn header-burger hide"  data-toggle="tooltip" data-placement="right" title="Your Walls">
                 <i class="fa fa-bars"></i>
             </div>
-            <div class="ui-btn ui-users-btn" ng-show="getWall() != 'global'" ng-click="" data-toggle="tooltip" data-placement="right" title="Add / Remove Collaborators">
+            <div class="ui-btn ui-users-btn" ng-show="getWall() != 'global' && getWall() != 'my-wall' " ng-click="" data-toggle="tooltip" data-placement="right" title="Add / Remove Collaborators">
                 <i class="fa fa-users"></i>
             </div>
             <div class="ui-btn share-btn hide" ng-click="" data-toggle="tooltip" data-placement="right" title="Share WLL.space">
